@@ -1,0 +1,553 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.menu {
+  padding: 16px 11px;
+  margin: 0px;
+  position: sticky;
+  z-index: 1000;
+}
+
+.container-fluid{
+  padding: 0;
+}
+
+.btnicon {
+  margin: 0 5px;
+}
+
+.menuitems {
+  margin: auto;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.menuitems a {
+  color: black;
+  display: contents;
+}
+
+.menuitems button {
+  margin: auto 5px;
+}
+
+.menuimg {
+  margin: 0 auto !important;
+  width: 17%;
+  height: 60px;
+}
+
+.homebtn {
+  width: 100%;
+  margin: 40px auto;
+}
+
+.homebtn a {
+  color: white !important;
+}
+
+.disablebtn a {
+  color: white !important;
+}
+
+.homefoodimg {
+  /* width: 150px; */
+  height: 150px;
+  /* border-radius: 50px; */
+  margin: 100px auto;
+}
+
+.homecards {
+  padding: 30px 10px 50px;
+}
+
+.br {
+  border-right: 1px solid rgb(189, 189, 189);
+}
+
+.bs {
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+
+.customHomeOrdernow{
+  padding: 0px 36px;
+}
+
+.blockimg {
+  width: 100%;
+  height: 400px;
+}
+
+.textonimg {
+  margin: 0 0 40px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(0, 0, 0, 0.7);
+  width: 100%;
+  height: 400px;
+  padding: 62px;
+}
+
+.desctextresponsive {
+  color: white;
+  padding: 10px;
+}
+
+.homebtnsm {
+  width: auto;
+  margin: 10px auto;
+}
+
+.homebtnsm a {
+  color: white !important;
+}
+
+.boldtext {
+  font-weight: bold;
+}
+
+.bigtext {
+  font-size: 52px;
+}
+
+.goldclr {
+  color: rgb(255, 166, 0);
+}
+
+.form-control {
+  margin: 10px 0;
+}
+
+.footer {
+  background-color: white;
+  color: black;
+  padding: 40px 0;
+  width: 75%;
+  margin: 0 auto;
+}
+
+.ts{
+  text-shadow: 2px 8px 6px rgba(0,0,0,0.2),
+  0px -5px 35px rgba(255,255,255,0.3);
+  }
+
+  input[type='radio']:after {
+    width: 16px;
+    height: 16px;
+    border-radius: 15px;
+    top: -3px;
+    left: -1px;
+    position: relative;
+    background-color:antiquewhite;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid black;
+}
+
+input[type='radio']:checked:after {
+    width: 16px;
+    height: 16px;
+    border-radius: 15px;
+    top: -3px;
+    left: -1px;
+    position: relative;
+    background-color: red;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid black;
+}
+
+.footer a {
+  color: black;
+  display: contents;
+  font-size: large;
+}
+
+.customPmargin{
+  margin-bottom: 2rem;
+}
+
+.footer button {
+  width: 100%;
+}
+
+.carouselcont {
+  position: relative;
+  text-align: start;
+  color: white;
+  width: 100%;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 180px;
+  left: 100px;
+}
+
+.indicatorbtn {
+  border-radius: 50% !important;
+  height: 10px !important;
+  width: 10px !important;
+  border: 2px solid brown !important;
+  background-color: white !important;
+  margin: 10px !important;
+}
+
+.indicatorbtn:active {
+  border: 2px solid white !important;
+  background-color: brown !important;
+}
+
+.carousel-indicators {
+
+  right: 60%;
+
+}
+
+.indicatorcont {
+  margin-left: 0 !important;
+  position: absolute !important;
+  left: 10px !important;
+  bottom: 10px !important;
+}
+
+.signinimg {
+  width: 100%;
+  height: 810px;
+}
+
+.registerimg {
+  width: 100%;
+  height: 1150px;
+}
+
+.signinbtn {
+  margin: 20px 40px;
+  width: 90%;
+  border: 1px solid blue;
+}
+
+.fixedNavbar{
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+
+.registerbtn {
+  margin: 0 40px 40px;
+  width: 90%;
+  border: 1px solid blue;
+}
+
+.signinbtn:hover,
+.registerbtn:hover {
+  background-color: blue;
+  color: white;
+}
+
+a {
+  display: contents;
+}
+
+.menutitleimg {
+  width: 100%;
+  height: 400px;
+}
+
+.productrow {
+  display: flex !important;
+  flex-direction: row;
+  /* padding-top: 120px; */
+}
+
+.categoryname{
+  padding-left: 100px;
+}
+
+.productcard {
+  /* border: 1px solid grey; */
+  margin: 22px;
+  padding: 20px 10px;
+  background-color: white;
+  width: 20%;
+  cursor: pointer;
+  min-height: 150px;
+  border-radius: 30px;
+}
+
+.productcard:hover{
+  border: 3px solid black;
+}
+
+.productimg {
+  width: 100%;
+  height: 120px;
+  border-radius: 30px;
+  margin-bottom: 30px;
+}
+
+.addtocartbtn{
+  background-color: red;
+  color: white;
+  border-radius: 30px;
+  margin: 20px auto;
+  padding: 10px 20px;
+}
+
+.addtocartbtn:hover{
+  background-color: black;
+  color: white;
+}
+
+.itemprice{
+  color: red;
+  font-weight: 500;
+}
+
+.seperator{
+  width: 75%;
+  margin: 40px auto 0 !important;
+}
+
+/* Container holding the image and the text */
+.container-title {
+  position: relative;
+  text-align: center;
+  color: white;
+  margin-top: 8%;
+}
+
+/* Centered text */
+.centered-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.centerh1{
+  font-size: 60px;
+  background-color: rgb(0, 0, 0, 0.5);
+}
+
+.footerimg{
+  width: 100%;
+  height: 100%;
+}
+
+.redclr{
+  color: red !important;
+}
+
+.whiteclr{
+  color: white !important;
+}
+
+.detailpageimg{
+  width: 100%;
+  height: auto;
+}
+
+.nav-pills {
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+  overflow-y: hidden;
+  top: 0%;
+  /* top: 13%; */
+  background: none !important;
+  color: white;
+  height: 95px;
+  position: sticky !important;
+  z-index: 0 !important;
+  /* width: 75%; */
+  margin: 0 auto !important;
+}
+
+.nav-pills a {
+  color: black;
+  background-color: lightgrey !important;
+  border-radius: 30px !important;
+  font-weight: bold !important;
+}
+
+.nav-pills a:hover {
+  background-color: black !important;
+  color: white;
+}
+
+.nav-item {
+  /* cursor: pointer; */
+  margin: 15px 10px;
+  /* width: 200px;
+  height: 70px; */
+}
+
+.nav-link {
+  font-size: 16px;
+  text-align: center;
+}
+
+.cart-cont {
+  background-color: red;
+  color: white;
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+}
+
+.cart-card {
+  background-color:white;
+  color: red;
+  text-align: left;
+  margin: 10px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid red;
+}
+
+.cart-card button {
+  border: 1px solid black;
+  margin: 5px;
+}
+
+.whyus {
+  padding: 0px 15px;
+  margin-bottom: 30px;
+}
+
+.mainnavbar {
+  background-color: red;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  padding: 0 auto !important;
+}
+
+.dropdown-item {
+  margin: 5px 0 !important;
+  padding: 5px !important;
+}
+
+.dropdown p:hover {
+  background-color: white;
+}
+
+.dropdown {
+  display: inline-flex !important;
+}
+
+.sidebar {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.sidebartag {
+  background-color: white;
+  color: black;
+  display: block !important;
+  padding: 10px !important;
+}
+
+.profileinfo {
+  height: 350px;
+}
+
+.userprofileinfo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.usercartbtn {
+  margin-left: auto;
+  font-weight: 500;
+  font-size: large;
+  width: 25%;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 20px;
+}
+.usercartbtn:hover {
+  background-color: black;
+  color: white;
+}
+
+.addressaction {
+  position: inline;
+}
+
+.filterbtn {
+  width: 100% !important;
+}
+
+.filtermenu {
+  width: 100%;
+  padding: 20px 40px;
+}
+
+.br {
+  border-radius: 20px;
+}
+
+.ordertype {
+  display: inline-flex !important;
+  margin: 0 20px 0 0;
+}
+
+.ordertype label {
+  margin: 0 5px;
+}
+
+.timelist {
+  width: 100%;
+}
+
+.time {
+  font-size: small;
+  font-weight: 500;
+  height: 25px;
+}
+
+.backbutton {
+  margin: 0 auto;
+}
+
+.userdditem {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 5px 20px !important;
+}
+
+.userddmenu {
+  width: 150px;
+}
+
+.shoppingcart {
+  z-index: 2000;
+}

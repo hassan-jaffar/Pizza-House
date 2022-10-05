@@ -1,0 +1,288 @@
+@media (max-width: 992px) {
+    .body {
+      overflow-x: hidden !important;
+    }
+    .menu {
+      display: flex !important;
+      flex-direction: row;
+    }
+    .menuitems {
+      width: 33.33%;
+    }
+    .disablebtn {
+      display: none;
+    }
+    .menuitems button {
+      margin: 0;
+      font-size: small;
+    }
+    .menuitems a {
+      margin: 0;
+      font-size: small;
+    }
+    iframe {
+      width: 100%;
+      height: auto;
+    }
+    .signinimg {
+      display: none;
+    }
+  
+    .nav-pills {
+      display: flex;
+      flex-direction: column;
+      overflow-x: auto;
+      overflow-y: hidden;
+      /* top: 8%; */
+      top:0%;
+      background-color: white;
+      color: white;
+      height: 85px;
+      width: 100%;
+      position: sticky !important;
+      z-index: 0 !important;
+    }
+  
+    .productrow {
+      display: block !important;
+      margin-top: 20px;
+      justify-content: center !important;
+    }
+    .productcard {
+      width: 90% !important;
+      text-align: start;
+      background-color: white;
+      padding: 10px 5px !important;
+      min-height: 150px;
+  
+      /* height: 150px !important;
+      background-color:aliceblue; */
+    }
+
+    .categoryname{
+        padding-left: 0px;
+        margin: 0 auto !important;
+    }
+    .productimg {
+      /* display: inline-flex !important;
+      flex-direction: row !important;
+      position: relative !important;
+      bottom: 100px !important;
+      left: 195px !important; */
+      width: 100px;
+      height: 100px;
+    }
+    .producttext {
+      line-height: 20px;
+    }
+    .blockimg {
+      height: 250px;
+    }
+    .centered {
+      height: 250px;
+      padding: 0 10px;
+      width: 100%;
+    }
+  
+    .centered h4 {
+      font-size: 12px;
+      font-weight: 400;
+      padding: 0;
+    }
+  
+    .centered h1 {
+      font-size: 18px;
+      font-weight: 600;
+      padding: 0;
+    }
+  
+    .whyus {
+      font-size: 12px !important;
+      padding: 0 10px !important;
+    }
+    .sidebar {
+      display: none;
+    }
+    body {
+      overflow-x: hidden !important;
+    }
+    .usercartbtn {
+      width: 100% !important;
+    }
+    .responsiveness {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    .menutitleimg {
+      height: 180px !important;
+    }
+    .time {
+      font-size: smaller;
+      height: 18px;
+    }
+    .navorderbtn {
+      display: inline-flex !important;
+      width: min-content !important;
+      padding: 0 6px !important;
+    }
+    .checkout-box {
+      width: 90%;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+    .row {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+  
+    .body {
+      overflow-x: hidden !important;
+    }
+    .mobileActive{
+      padding: 0px;
+    }
+    .footer{
+      width: 100% !important;
+    }
+    .footerimg{
+      width: 50%;
+      height: auto;
+    }
+    .pushdown{
+      margin-top: 30px;
+    }
+    .centerh1{
+      font-size: 30px;
+    }
+    .menuimg {
+      margin: auto;
+      width: 50%;
+      height: auto;
+    }
+    .reducedwidth{
+      width: 90%;
+      margin: 30px auto !important;
+    }
+    .usertitle{
+      text-align: center;
+    }
+    .userprofileinfo{
+      display: block !important;
+    }
+  }
+  
+  /* Adding new media query */
+  @media screen and (max-width:767px) {
+    .mobileActive{
+      padding: 0px;
+    }
+    .mobileActiveButton{
+      padding: 0;
+    }
+    .carousel-inner {
+      height: 38vh;
+  }
+  .img-responsive {
+    height: 38vh;
+  }
+  .carousel-indicators {
+  
+    right: 35%;
+  }
+  .productrow {
+    display: flex !important;
+    margin-top: 20px;
+    justify-content: center !important;
+  }
+  .productcard {
+    width: 45% !important;
+    text-align: start;
+    background-color: white;
+    padding: 10px 5px !important;
+    min-height: 150px;
+    /* height: 150px !important;
+    background-color:aliceblue; */
+  }
+  }
+  
+  /* Adding new media query */
+  @media (min-width:767px) and (max-width: 992px) {
+  
+  .productrow {
+    display: flex !important;
+    margin-top: 20px;
+    justify-content: center !important;
+  }
+  .productcard {
+    width: 40% !important;
+    text-align: start;
+    background-color: white;
+    padding: 10px 5px !important;
+    min-height: 150px;
+    margin-right: 20px !important;
+    margin-left: 20px !important;
+  
+    /* height: 150px !important;
+    background-color:aliceblue; */
+  }
+  }
+  @media (max-width:767px){
+    .productrow {
+      display: block !important;
+      margin-top: 20px;
+      justify-content: center !important;
+    }
+    .productcard {
+      width: 90% !important;
+      text-align: start;
+      background-color: white;
+      padding: 10px 5px !important;
+      min-height: 150px;
+      /* height: 150px !important;
+      background-color:aliceblue; */
+    }
+  }
+  
+  
+  @media screen and (max-width:360px) {
+    .centered {
+      height: 300px;
+      padding: 0 10px;
+      width: 100%;
+  }
+  .blockimg {
+    height: 300px;
+  }
+  }
+  
+  @media screen and (min-width:469px) and (max-width:600px){
+    .centered {
+      padding: 30px 10px;
+  }
+  }
+  @media screen and (min-width:601px) {
+    .centered {
+      padding: 40px 10px;
+  }
+  
+  }
+  
+  /* -------------------------------------------- */
+  /* Adding media query for nav-pills by Shoaib */
+  /* -------------------------------------------- */
+  @media screen and (max-width: 400px) {
+    .nav-pills{
+      top:0%;
+      /* top:9%; */
+    }
+  }
+  
+  @media screen and (min-width:768px) and (max-width:820px) {
+    .nav-pills{
+      top:0%;
+      /* top:5%; */
+    }
+  }
+  .hidescroll{
+    overflow-x: hidden;
+  }
