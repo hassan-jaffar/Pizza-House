@@ -236,7 +236,7 @@ function CartCheckout() {
       toast.success("Checkout Successfull");
       // setloading(true)
       setInterval(() => {
-        window.location.href = "/";
+        window.location.href = "/menu";
       }, 2000);
 
       setcomment("");
@@ -709,7 +709,7 @@ function CartCheckout() {
                 <button className="btn usercartbtn">Apply</button>
               </div>
             </div>
-            <Link to="/">
+            <Link to="/menu">
               <button className="btn usercartbtn w-auto backbutton">Back</button>
             </Link>
           </div>
