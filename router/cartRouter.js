@@ -478,4 +478,22 @@ router.post('/getcustomerorderscount',(req,res)=>{
 
 })
 
+// Router /getlastaddress
+router.post("/getlastaddress",(req,res)=>{
+    let customer_Id = req.body.customer_Id;
+
+    let qr = `Select * from address where customer_Id = ${customer_Id} and address_status = 1`
+    dbconfig.query(qr,(err,result)=>{
+        if (!err) {
+            res.status(200).json({
+                data:result[0]
+            })
+        } else {
+            res.status(200).json({
+                message:"Last address not found"
+            })
+        }
+    })
+})
+
 module.exports = router

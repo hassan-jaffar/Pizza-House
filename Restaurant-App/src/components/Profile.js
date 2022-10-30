@@ -11,6 +11,7 @@ function Profile() {
   const [email, setemail] = useState(JSON.parse(localStorage.getItem("currentuser"))[0].email);
   const [number, setnumber] = useState(JSON.parse(localStorage.getItem("currentuser"))[0].number);
   const [total, settotal] = useState("")
+  const [address, setaddress] = useState([])
 
   async function updatecustomer(e){
     const details = {
@@ -52,7 +53,12 @@ function Profile() {
         const data = await (
           await axios.post("http://localhost:5000/api/admin/getcustomerorderscount",detail)
         ).data;
+
+        const result = await (
+          await axios.post("http://localhost:5000/api/admin/getlastaddress",detail)
+        ).data;
         settotal(data.message);
+        setaddress(result.data)
       } catch (error) {
         console.log(error, "err");
       }
@@ -186,7 +192,15 @@ function Profile() {
                   <br />
                   <hr />
                   <br />
-                  <p>Last Added Address: ---</p>
+                  <p>Last Added Address: {address ? (<>
+                  <br />
+                  <h6>
+                    House no:{address.house},Flat:
+                                  {address.flat},{address.street},
+                                  {address.postcode},{address.town}
+                                  </h6></>):(<>
+                                  <h6>You don't have any address yet</h6>
+                                  </>) }</p>
                 </div>
               </div>
             {/* </div>
