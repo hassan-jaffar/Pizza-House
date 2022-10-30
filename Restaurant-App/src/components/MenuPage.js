@@ -41,7 +41,7 @@ let handleChange = (e) => {
   // console.log(cartDetail);
   // try {
   //   const result = await axios.post(
-  //     "https://apinodejs.creativeparkingsolutions.com/api/admin/cart",
+  //     "http://localhost:5000/api/admin/cart",
   //     cartDetail
   //   );
   //   console.log(result);
@@ -2327,7 +2327,7 @@ let handleChange = (e) => {
         setloading(true);
         const data = await (
           await axios.get(
-            "https://apinodejs.creativeparkingsolutions.com/api/admin/getallmenu"
+            "http://localhost:5000/api/admin/getallmenu"
           )
         ).data;
         setcategory(data.data);
@@ -2346,7 +2346,7 @@ let handleChange = (e) => {
       try {
         const data = await (
           await axios.get(
-            "https://apinodejs.creativeparkingsolutions.com/api/admin/getallitems"
+            "http://localhost:5000/api/admin/getallitems"
           )
         ).data;
         setItem(data.data);

@@ -3,7 +3,7 @@ const router = express.Router();
 const dbconfig = require('../db');
 
 // Router 1 api is for super admin and admin for adding the resturnat.
-// Router 1 : Registering the resturant information https://apinodejs.creativeparkingsolutions.com/api/setting/addresturantmanagement
+// Router 1 : Registering the resturant information http://localhost:5000/api/setting/addresturantmanagement
 // Status
 router.post('/addresturant',(req,res)=>{
     let name = req.body.name;
@@ -76,7 +76,7 @@ router.post('/addresturant',(req,res)=>{
 })
 
 
-// Router 2: https://apinodejs.creativeparkingsolutions.com/api/setting/loyality
+// Router 2: http://localhost:5000/api/setting/loyality
 // Status
 router.post('/loyality',(req,res)=>{
     let status = req.body.status;
@@ -98,7 +98,7 @@ router.post('/loyality',(req,res)=>{
     })
 })
 
-// Router 3: https://apinodejs.creativeparkingsolutions.com/api/setting/referral
+// Router 3: http://localhost:5000/api/setting/referral
 // Status:
 router.post('/referral',(req,res)=>{
     let status = req.body.status;
@@ -118,7 +118,7 @@ router.post('/referral',(req,res)=>{
     })
 })
 
-// Router 4: https://apinodejs.creativeparkingsolutions.com/api/setting/config
+// Router 4: http://localhost:5000/api/setting/config
 // Status:
 router.post('/config',(req,res)=>{
     let order_time = req.body.order_time;
@@ -137,7 +137,7 @@ router.post('/config',(req,res)=>{
     })
 })
 
-// router 5: https://apinodejs.creativeparkingsolutions.com/api/setting/menutype
+// router 5: http://localhost:5000/api/setting/menutype
 // status:
 router.post('/menutype',(req,res)=>{
     let lowercase = req.body.lowercase;
@@ -157,7 +157,7 @@ router.post('/menutype',(req,res)=>{
     })
 })
 
-// Router 6: https://apinodejs.creativeparkingsolutions.com/api/setting/apps
+// Router 6: http://localhost:5000/api/setting/apps
 // Status:
 router.post("/apps",(req,res)=>{
     let title = req.body.title;

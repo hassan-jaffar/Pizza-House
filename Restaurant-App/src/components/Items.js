@@ -31,7 +31,7 @@ function Items({ items, categorys }) {
     console.log(cartDetail);
     try {
       const result = await axios.post(
-        "https://apinodejs.creativeparkingsolutions.com/api/admin/cart",
+        "http://localhost:5000/api/admin/cart",
         cartDetail
       );
       console.log(result);
@@ -103,14 +103,14 @@ function Items({ items, categorys }) {
             <div className="col-md-6">
               <img
                 className="detailpageimg br"
-                src="https://www.cheezious.com/api/image?url=https%3A%2F%2Fem-cdn.eatmubarak.pk%2Frestaurant_new%2F%2F%2Fdish%2F16027791221858590131.jpg&w=1920&q=100"
+                src={items.Image}
                 alt=""
               />
               <h4 className="boldtext redclr mt-5">Product Description</h4>
-              <p>4 Pcs Stuffed Calzone Chunks Served with Sauce & Fries</p>
+              <p>{items.Description}</p>
             </div>
             <div className="col-md-6">
-              <h3 className="boldtext redclr mb-5">Item Name</h3>
+              <h3 className="boldtext redclr mb-5">{items.Title}</h3>
               <p>
                 <i className="fa-solid fa-clock me-2 redclr"></i>ETA: 45
                 minute(s)
@@ -123,7 +123,7 @@ function Items({ items, categorys }) {
                 <i className="fa-solid fa-bus me-2 redclr"></i>Delivered by
                 Pizza House
               </p>
-              <h5 className="boldtext my-5 redclr">Price</h5>
+              <h5 className="boldtext my-5 redclr">${items.Price}</h5>
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Quantity</Form.Label>
@@ -137,7 +137,7 @@ function Items({ items, categorys }) {
                   />
                 </Form.Group>
               </Form>
-              <button className="btn addtocartbtn w-100">Add to Cart</button>
+              <button className="btn addtocartbtn w-100" onClick={AddtoCart}>Add to Cart</button>
             </div>
           </div>
           {/* <div className="row">
