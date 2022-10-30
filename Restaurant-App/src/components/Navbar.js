@@ -161,12 +161,12 @@ function Navbar() {
       >
         <div className="row menu mobileActive">
           <div className="col-md-4 menuitems text-start">
-            <p style={{color: "white", margin: "0"}}>
+            <p style={{ color: "white", margin: "0" }}>
               <i className="fa-solid fa-phone whiteclr btnicon"></i>051111446699
             </p>
-            <p style={{color: "white", margin: "0"}}>
-            <i className="fa-solid fa-location-pin whiteclr btnicon"></i> Sahiwal
-          </p>
+            <p style={{ color: "white", margin: "0" }}>
+              <i className="fa-solid fa-location-pin whiteclr btnicon"></i> Sahiwal
+            </p>
           </div>
 
           <div className="col-md-4 menuitems text-center">
@@ -340,14 +340,14 @@ function Navbar() {
                     <li>
                       <hr class="dropdown-divider" />
                     </li>
-                    <Link to="/login">
-                      <button
-                        className="btn btn-light userdditem dropdown-item"
-                        onClick={logout}
-                      >
-                        LOG OUT
-                      </button>
-                    </Link>
+                    {/* <Link to="/login"> */}
+                    <button
+                      className="btn btn-light userdditem dropdown-item"
+                      onClick={logout}
+                    >
+                      LOG OUT
+                    </button>
+                    {/* </Link> */}
                   </ul>
                 </div>
               </>
