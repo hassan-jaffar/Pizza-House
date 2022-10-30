@@ -448,4 +448,34 @@ router.post('/getcartorderdetailitems',(req,res)=>{
     })
 })
 
+// Router for count of order
+router.post('/getcustomerorderscount',(req,res)=>{
+
+    let customer_Id = req.body.customer_Id
+
+    // Main query
+    let qr  = `SELECT count(*) as 'total' FROM cart 
+    Where 	customer_Id=${customer_Id}
+   `;
+    dbconfig.query(qr,(err,result)=>{
+        if (!err) {
+            if(result[0]['total']>0){
+                res.json({  
+                    data:'true',
+                    message:result[0]['total']
+                })
+            }
+            else{
+                res.status(401).json({
+                    data:'false',
+                    message:result[0]['total']
+                })
+            }
+        } else {
+            console.log(err,"err")
+        }
+    })
+
+})
+
 module.exports = router

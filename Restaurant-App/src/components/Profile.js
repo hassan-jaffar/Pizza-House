@@ -10,6 +10,7 @@ function Profile() {
   const [name, setname] = useState(JSON.parse(localStorage.getItem("currentuser"))[0].name);
   const [email, setemail] = useState(JSON.parse(localStorage.getItem("currentuser"))[0].email);
   const [number, setnumber] = useState(JSON.parse(localStorage.getItem("currentuser"))[0].number);
+  const [total, settotal] = useState("")
 
   async function updatecustomer(e){
     const details = {
@@ -41,6 +42,24 @@ function Profile() {
       // setloading(true)
   }
   }
+
+  useEffect(() => {
+    async function fetchData() {
+      const detail = {
+        customer_Id:JSON.parse(localStorage.getItem("currentuser"))[0].customer_Id
+      }
+      try {
+        const data = await (
+          await axios.post("http://localhost:5000/api/admin/getcustomerorderscount",detail)
+        ).data;
+        settotal(data.message);
+      } catch (error) {
+        console.log(error, "err");
+      }
+    }
+    fetchData();
+  }, [])
+  
 
   return (
     <>
@@ -163,7 +182,7 @@ function Profile() {
                   <br />
                   <hr />
                   <br />
-                  <p>Total Orders: 0</p>
+                  <p>Total Orders: {total}</p>
                   <br />
                   <hr />
                   <br />
