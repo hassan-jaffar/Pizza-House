@@ -3,10 +3,47 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 import "../Css/order.css";
+import moment from "moment";
+import { DatePicker, Space } from "antd";
+import "antd/dist/antd.css";
+
 
 function Orders() {
+  const { RangePicker } = DatePicker;
   const [order, setOrder] = useState([]);
+  const [duplicateorder, setduplicateorder] = useState([]);
+  const [fromdate, setfromdate] = useState();
+  const [todate, settodate] = useState();
+
   const getstatus = localStorage.getItem("status");
+
+  function filterByDate2(dates) {
+    if (dates) {
+      setfromdate(moment(dates[0]).format("DD-MM-YYYY"));
+      settodate(moment(dates[1]).format("DD-MM-YYYY"));
+
+      if (dates[0] && dates[1]) {
+        const temporders = duplicateorder.filter(
+          (orders) => {
+            console.log(Date.parse(dates[0]._d)
+              , Date.parse(orders.DateTime), Date.parse(dates[1]._d)
+            )
+            return Date.parse(dates[0]._d) < Date.parse(orders.DateTime) && Date.parse(dates[1]._d) > Date.parse(orders.DateTime)
+          }
+        );
+        setOrder(temporders);
+      }
+      else {
+        setOrder(order)
+      }
+    }
+    else {
+      setOrder(order)
+    }
+
+
+  }
+
 
   useEffect(() => {
     async function fetchData() {
@@ -22,6 +59,7 @@ function Orders() {
           )
         ).data;
         setOrder(data.data);
+        setduplicateorder(data.data);
       } catch (error) {
         console.log(error);
       }
@@ -99,64 +137,59 @@ function Orders() {
       <div className="row justify-content-center">
         <div className="col-md-10 mx-5 mt-5 mb-2 pt-2 pb-5 px-5 br bs reducedwidth responsiveness">
           <h1 className="my-3 responsiveness usertitle">MY ORDERS</h1>
+          <div
+            className="accordion my-2 w-100 bs responsiveness"
+            id="accordionExample"
+          >
+            <div className="accordion-item">
+              <h2 className="accordion-header" id="headingOne">
+                <button
+                  className="accordion-button collapsed boldtext"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="false"
+                  aria-controls="collapseOne"
+                >
+                  FILTER
+                </button>
+              </h2>
               <div
-                className="accordion my-2 w-100 bs responsiveness"
-                id="accordionExample"
+                id="collapseOne"
+                className="accordion-collapse collapse"
+                aria-labelledby="headingOne"
+                data-bs-parent="#accordionExample"
               >
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="headingOne">
-                    <button
-                      className="accordion-button collapsed boldtext"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne"
-                      aria-expanded="false"
-                      aria-controls="collapseOne"
-                    >
-                      FILTER
-                    </button>
-                  </h2>
-                  <div
-                    id="collapseOne"
-                    className="accordion-collapse collapse"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#accordionExample"
+                <div className="accordion-body text-start my-3">
+                  <label for="daterange" className="me-1 my-1 boldtext">
+                    Date Range
+                  </label>
+                  <RangePicker
+                    format="DD-MM-YYYY"
+                    onChange={filterByDate2}
+                  />
+                  {/* <label
+                    for="customerfilter"
+                    className="boldtext my-1 ms-2"
                   >
-                    <div className="accordion-body text-start my-3">
-                      <label for="daterange" className="me-1 my-1 boldtext">
-                        Date Range
-                      </label>
-                      <input
-                        id="daterange"
-                        className="me-1 my-1 py-1"
-                        placeholder="Start Date"
-                      />
-                      <input
-                        id="daterange"
-                        className="me-1 my-1 py-1"
-                        placeholder="End Date"
-                      />
-                      <label
-                        for="customerfilter"
-                        className="boldtext my-1 ms-2"
-                      >
-                        Filter by Customer:
-                      </label>
-                      <input
-                        id="customerfilter"
-                        className="mx-1 my-1 py-1"
-                        placeholder="Select an option"
-                      />
-                      <button className="btn btn-primary my-1 mx-1">
-                        Export
-                      </button>
-                      <button className="btn btn-primary my-1 mx-1">
-                        Search
-                      </button>
-                    </div>
-                  </div>
+
+                    Filter by Customer:
+                  </label>
+                  <input
+                    id="customerfilter"
+                    className="mx-1 my-1 py-1"
+                    placeholder="Select an option"
+                  />
+                  <button className="btn btn-primary my-1 mx-1">
+                    Export
+                  </button>
+                  <button className="btn btn-primary my-1 mx-1">
+                    Search
+                  </button> */}
                 </div>
               </div>
+            </div>
+          </div>
 
         </div>
       </div>
@@ -192,7 +225,7 @@ function Orders() {
                                   {orders.ID}
                                 </span>
                               </td>
-                              <td>{orders.DateTime}</td>
+                              <td>{moment(orders.DateTime).format('MMMM Do YYYY, h:mm a')}</td>
                               <td>
                                 <span class="badge text-bg-primary primary">
                                   collection
