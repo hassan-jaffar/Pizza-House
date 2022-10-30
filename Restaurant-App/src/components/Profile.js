@@ -1,11 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Profile() {
   const getstatus = localStorage.getItem("status");
+  const [name, setname] = useState(JSON.parse(localStorage.getItem("currentuser"))[0].name);
+  const [email, setemail] = useState(JSON.parse(localStorage.getItem("currentuser"))[0].email);
+  const [number, setnumber] = useState(JSON.parse(localStorage.getItem("currentuser"))[0].number);
+
+  async function updatecustomer(e){
+    const details = {
+      customer_Id:JSON.parse(localStorage.getItem('currentuser'))[0].customer_Id,
+      name,
+      email,
+      number
+    }
+    try {
+
+      // setloading(true)
+      const result = await axios.post("http://localhost:5000/api/admin/myprofile",details).data;
+      console.log(result)
+      toast.success("Profile has been updated")
+      // setloading(true)
+      setInterval(() => {
+        window.location.href = "/home"
+      }, 2000);
+
+      
+      setemail('');
+      setname('');
+      setnumber('');
+
+  } catch (error) {
+      console.log(error);
+      toast.warn("Something went wrong!")
+      e.preventDefault()
+      // setloading(true)
+  }
+  }
+
   return (
     <>
+    <ToastContainer />
         <Navbar />
         {/* <div className="container-fluid">
           <div className="row flex-nowrap">
@@ -93,20 +132,29 @@ function Profile() {
                     id="namee"
                     className="form-control mb-4"
                     placeholder="Name"
+                    value={name}
+                    onChange={(e)=>{setname(e.target.value)}}
+                    required
                   />
                   <label for="emailad">Email Address</label>
                   <input
                     id="emailad"
                     className="form-control mb-4"
                     placeholder="Email"
+                    value={email}
+                    onChange={(e)=>{setemail(e.target.value)}}
+                    required
                   />
                   <label for="phoneno">Phone</label>
                   <input
                     id="phoneno"
                     className="form-control mb-4"
                     placeholder="Phone"
+                    value={number}
+                    onChange={(e)=>{setnumber(e.target.value)}}
+                    required
                   />
-                  <button className="btn usercartbtn">
+                  <button className="btn usercartbtn" onClick={updatecustomer}>
                     Update
                   </button>
                 </div>
