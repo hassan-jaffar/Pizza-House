@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
@@ -19,7 +19,6 @@ function SigninPage() {
     try {
       // setloading(true)
       const result = (await axios.post('http://localhost:5000/api/user/login', user)).data;
-      console.log(result.data)
 
       localStorage.setItem('currentuser', JSON.stringify(result.data));
 
@@ -122,6 +121,7 @@ function SigninPage() {
           <img
             className="signinimg"
             src="https://img.lovepik.com/photo/20211122/large/lovepik-pizza-picture_500753800.jpg"
+            alt=".."
           />
         </div>
       </div>
