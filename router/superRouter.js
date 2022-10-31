@@ -1,9 +1,23 @@
+const { response } = require("express");
 const express = require("express");
 const { body } = require("express-validator");
+const { off } = require("../db");
 const router = express.Router();
 const dbconfig = require('../db');
+var nodemailer = require('nodemailer');
 
-// Router 1: http://localhost:5000/api/superadmin/getliveresturants
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    port: 993,
+    auth: {
+        user: 'shoaibjamil43@gmail.com',
+        pass: 'ohplalyerexxexif'
+    }
+});
+
+
+
+// Router 1: https://apinodejs.creativeparkingsolutions.com/api/superadmin/getliveresturants
 // Status:
 router.get('/getliveresturants', (req, res) => {
     let qr = `Select * from resturant where status = "true"`
@@ -20,7 +34,7 @@ router.get('/getliveresturants', (req, res) => {
     })
 })
 
-// Router 2 : http://localhost:5000/api/superadmin/getallorders
+// Router 2 : https://apinodejs.creativeparkingsolutions.com/api/superadmin/getallorders
 // Status: working
 router.get('/getallorders', (req, res) => {
     let qr = `Select * from cart INNER JOIN resturant on cart.resturant_ID = resturant.ID`
@@ -37,7 +51,7 @@ router.get('/getallorders', (req, res) => {
     })
 })
 
-// Router 3: http://localhost:5000/api/superadmin/addpage
+// Router 3: https://apinodejs.creativeparkingsolutions.com/api/superadmin/addpage
 // Status: working
 router.post('/addpage', (req, res) => {
     let title = req.body.title;
@@ -59,7 +73,7 @@ router.post('/addpage', (req, res) => {
     })
 })
 
-// router 4: http://localhost:5000/api/superadmin/getallpages
+// router 4: https://apinodejs.creativeparkingsolutions.com/api/superadmin/getallpages
 // status: working
 router.get('/getallpages', (req, res) => {
     let qr = `Select * from pages`
@@ -82,7 +96,7 @@ router.get('/getallpages', (req, res) => {
     })
 })
 
-// Router 5: http://localhost:5000/api/superadmin/deletepage
+// Router 5: https://apinodejs.creativeparkingsolutions.com/api/superadmin/deletepage
 // status: working
 router.post("/deletepage", (req, res) => {
     let ID = req.body.ID
@@ -102,12 +116,12 @@ router.post("/deletepage", (req, res) => {
     })
 })
 
-// Router 6: http://localhost:5000/api/superadmin/editpage
+// Router 6: https://apinodejs.creativeparkingsolutions.com/api/superadmin/editpage
 // Status: working
 router.post("/editpage", (req, res) => {
     let ID = req.body.ID;
-    let title = req.body.title;
-    let description = req.body.description;
+    let title = req.body.updatetitle;
+    let description = req.body.updatedescription;
 
     let qr = `update pages
     set title = '${title}', description ='${description}'
@@ -125,7 +139,30 @@ router.post("/editpage", (req, res) => {
     })
 })
 
-// router 7: http://localhost:5000/api/superadmin/updatepagestatus
+// Router 14: https://apinodejs.creativeparkingsolutions.com/api/superadmin/editpageitem/:ID
+// Status:
+router.get('/editpageitem/:ID', (req, res) => {
+    let ID = req.params.ID;
+
+    let qr = `Select * from pages where ID = ${ID}`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                // ID:result[0]['ID'],
+                // title:result[0]['title'],
+                // description:result[0]['description']
+                data: result[0]
+            })
+        } else {
+            res.status(404).json({
+                error: err
+            })
+        }
+    })
+}
+)
+
+// router 7: https://apinodejs.creativeparkingsolutions.com/api/superadmin/updatepagestatus
 // Status: working
 router.post('/updatepagestatus', (req, res) => {
     let ID = req.body.ID;
@@ -147,10 +184,11 @@ router.post('/updatepagestatus', (req, res) => {
     })
 })
 
-// Router 8:  http://localhost:5000/api/superadmin/orderreport
+// Router 8:  https://apinodejs.creativeparkingsolutions.com/api/superadmin/orderreport
 // Status: working
 router.get('/orderreport', (req, res) => {
-    let qr = `SELECT * FROM cart INNER join customer on cart.customer_Id = customer.customer_Id`;
+    let qr = `SELECT *,customer.name as "cname",cart.DateTime as "datetime" FROM cart INNER join customer on cart.customer_Id = customer.customer_Id 
+    INNER join resturant on cart.resturant_ID = resturant.ID`;
 
     dbconfig.query(qr, (err, result) => {
         if (!err) {
@@ -171,7 +209,7 @@ router.get('/orderreport', (req, res) => {
     })
 })
 
-// Router 9: http://localhost:5000/api/superadmin/getallresturants
+// Router 9: https://apinodejs.creativeparkingsolutions.com/api/superadmin/getallresturants
 // status : working
 router.get('/getallresturants', (req, res) => {
     let qr = `Select * from resturant`
@@ -194,7 +232,7 @@ router.get('/getallresturants', (req, res) => {
     })
 })
 
-// Router 9: http://localhost:5000/api/superadmin/deleteresturant
+// Router 9: https://apinodejs.creativeparkingsolutions.com/api/superadmin/deleteresturant
 // Status: working
 router.post('/deleteresturant', (req, res) => {
     let ID = req.body.ID;
@@ -214,7 +252,7 @@ router.post('/deleteresturant', (req, res) => {
     })
 })
 
-// Router 10: http://localhost:5000/api/superadmin/deactivateresturant
+// Router 10: https://apinodejs.creativeparkingsolutions.com/api/superadmin/deactivateresturant
 // Status: working
 router.post('/deactivateresturant', (req, res) => {
     let ID = req.body.ID;
@@ -236,7 +274,7 @@ router.post('/deactivateresturant', (req, res) => {
     })
 })
 
-// router 11: http://localhost:5000/api/superadmin/activateresturant
+// router 11: https://apinodejs.creativeparkingsolutions.com/api/superadmin/activateresturant
 // Status: working
 router.post('/activateresturant', (req, res) => {
     let ID = req.body.ID;
@@ -258,9 +296,9 @@ router.post('/activateresturant', (req, res) => {
     })
 })
 
-// Router 12: http://localhost:5000/api/superadmin/editresturant
+// Router 12: https://apinodejs.creativeparkingsolutions.com/api/superadmin/editresturant
 // Status: 
-router.post('/editresturant', (req, res) => {
+router.post('/editresturant/:id', (req, res) => {
     let ID = req.body.ID;
     let name = req.body.name;
     let description = req.body.description;
@@ -355,6 +393,43 @@ router.post('/editresturant', (req, res) => {
     })
 })
 
+// Router:
+// Status:
+router.get('/geteditresturant/:id', (req, res) => {
+    let id = req.params.id;
+
+    let qr = `Select * from resturant where ID = ${id}`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                data: result[0]
+            })
+        } else {
+            res.status(404).json({
+                error: err
+            })
+        }
+    })
+})
+
+// router 13: https://apinodejs.creativeparkingsolutions.com/api/superadmin/resturantcount
+// status: working
+router.get('/resturantcount', (req, res) => {
+    let qr = `Select count(*) as 'total' from resturant`
+
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                data: result[0]['total']
+            })
+        } else {
+            res.status(404).json({
+                error: err
+            })
+        }
+    })
+})
+
 // Router: https://apinodejs.creativeparkingsolutions.com/api/superadmin/openclose
 // 
 router.post('/openclose', (req, res) => {
@@ -410,24 +485,6 @@ router.post('/openclose', (req, res) => {
     })
 })
 
-// router 13: https://apinodejs.creativeparkingsolutions.com/api/superadmin/resturantcount
-// status: working
-router.get('/resturantcount', (req, res) => {
-    let qr = `Select count(*) as 'total' from resturant`
-
-    dbconfig.query(qr, (err, result) => {
-        if (!err) {
-            res.status(200).json({
-                data: result[0]['total']
-            })
-        } else {
-            res.status(404).json({
-                error: err
-            })
-        }
-    })
-})
-
 // Router: https://apinodejs.creativeparkingsolutions.com/api/superadmin/getopenclose
 // Status:
 router.post('/getopenclose', (req, res) => {
@@ -447,6 +504,371 @@ router.post('/getopenclose', (req, res) => {
     })
 })
 
+
+// Router: https://apinodejs.creativeparkingsolutions.com/api/superadmin/closeshift
+// Status:
+router.post('/closeshift', (req, res) => {
+    let status = "false";
+    let id = req.body.id;
+
+    let qr = `Select * from open 
+    Where resturant_ID = ${id}`
+    dbconfig.query(qr, (err, result1) => {
+
+        if (!err) {
+            if (result1.lenght <= 0) {
+                let qr = `Insert into open(online,offline,statement,dateto,datefrom,resturant_ID)
+            values('false','${status}','Nil','Nil','Nil',${id})`
+                dbconfig.query(qr, (err, result) => {
+                    if (!err) {
+                        res.status(200).json({
+                            data: result
+                        })
+                    } else {
+                        res.status(404).json({
+                            error: err
+                        })
+                    }
+                })
+            } else {
+                let qr = `Update open set offline='${status}'
+            where resturant_ID = ${id}`
+                dbconfig.query(qr, (err, result) => {
+                    if (!err) {
+                        res.status(200).json({
+                            data: result
+                        })
+                    } else {
+                        res.status(404).json({
+                            error: err
+                        })
+                    }
+                })
+
+            }
+        }
+        else {
+            res.status(404).json({
+                error: err
+            })
+
+        }
+    })
+})
+
+// Login as route path: http://localhost:5000/api/superadmin/loginas
+router.post("/loginas", (req, res) => {
+    let id = req.body.id;
+
+    let qr = `Select count(*) as 'total' from customer where resturant_ID = ${id} `
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            // res.json({
+            //     data:result[0]['total']
+            // })
+            if (result[0]['total'] > 0) {
+                let qr = `Select * from customer where resturant_ID = ${id}`
+                dbconfig.query(qr, (err, results) => {
+                    if (!err) {
+                        if (results.lenght === 0) {
+                            res.status(404).json({
+                                message: "You are not allowed"
+                            })
+                        }
+                        else {
+                            let qr = `SELECT * FROM customer 
+                where email = '${results[0]['email']}' and password = '${results[0]["password"]}'`
+                            dbconfig.query(qr, (err, result) => {
+                                if (!err) {
+                                    res.status(200).json({
+                                        loginas: "true",
+                                        data: result
+                                    })
+                                } else {
+                                    res.status(404).json({
+                                        message: "Credentials are not correct"
+                                    })
+                                }
+                            })
+                        }
+
+                    } else {
+                        res.status(404).json({
+                            message: "No data found"
+                        })
+                    }
+                })
+            } else {
+                res.status(404).json({
+                    loginas: "false",
+                    message: "No data found"
+                })
+            }
+        } else {
+            res.status(404).json({
+                message: "No data found"
+            })
+        }
+    })
+
+
+})
+
+// Router for addrank / Path:
+router.post("/addrank", (req, res) => {
+    let id = req.body.id;
+    let name = req.body.name;
+    let value = req.body.value;
+    let status = req.body.status;
+
+
+    let qr = `INSERT INTO ranking(resturant_ID,name,value1,status1) VALUES (${id},'${name}','${value}','${status}')`
+
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            if (result) {
+                res.status(200).json({
+                    message: "Data has been saved"
+                })
+            }
+        } else {
+            res.status(500).json({
+                error: err
+            })
+        }
+    })
+})
+
+// Router for getranks / path:
+router.post("/getranks", (req, res) => {
+    let id = req.body.id;
+
+    let qr = `Select * from ranking where resturant_ID = ${id}`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                data: result
+            })
+        } else {
+            res.status(500).json({
+                message: "Something went wrong"
+            })
+        }
+    })
+})
+
+// Router for editrank / path:
+router.post("/editrank", (req, res) => {
+    let id = req.body.id;
+    let name = req.body.name;
+    let value = req.body.value;
+    let status = req.body.status;
+
+    let qr = `UPDATE ranking SET name='${name}',
+    value1='${value}',
+    status1='${status}'
+    WHERE ID=${id}`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                message: "Data has been updated"
+            })
+        } else {
+            res.status(500).json({
+                message: "Something went wrong"
+            })
+        }
+    })
+})
+
+// Router for geteditrank
+router.get('/geteditrank/:id', (req, res) => {
+    let id = req.params.id;
+
+    let qr = `Select * from ranking where ID = ${id}`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                data: result[0]
+            })
+        } else {
+            res.status(404).json({
+                error: err
+            })
+        }
+    })
+})
+
+// Router for addtranslation
+router.post("/addtranslation", (req, res) => {
+    let id = req.body.id;
+    let groupvalidation = req.body.groupvalidation;
+    let keyinvalid = req.body.keyinvalid;
+    let value = req.body.value;
+    let namespace = req.body.namespace;
+
+    let qr = `INSERT INTO translation(resturant_ID, groupvalidation, keyinvalid, value, namespace) VALUES (${id},'${groupvalidation}','${keyinvalid}','${value}','${namespace}')`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                message: "Data has been inserted"
+            })
+        } else {
+            res.status(500).json({
+                message: "Something went wrong"
+            })
+        }
+    })
+})
+
+// Router for edittranslation
+router.post("/edittranslation", (req, res) => {
+    let id = req.body.id;
+    let value = req.body.value;
+
+    let qr = `UPDATE translation SET value='[value-5]' WHERE ID=${id}`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                message: "Data has been updated"
+            })
+        } else {
+            res.status(500).json({
+                message: "Something went wrong"
+            })
+        }
+    })
+})
+
+// Router for addlanguage
+router.post("/addlanguage", (req, res) => {
+    let id = req.body.id;
+    let name = req.body.name;
+    let locale = req.body.locale;
+
+    let qr = `INSERT INTO language(resturant_ID, name, locale) VALUES (${id},'${name}','${locale}')`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                message: "Data has been added"
+            })
+        } else {
+            res.status(500).json({
+                message: "Something went wrong"
+            })
+        }
+    })
+})
+
+// router for getlangauges
+router.post("/getlanguage", (req, res) => {
+    let id = req.body.id;
+
+    let qr = `Select * from language where resturant_ID = ${id}`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                data: result
+            })
+        } else {
+            res.status(500).json({
+                message: "Something went wrong"
+            })
+        }
+    })
+})
+
+// router for /gettranslation
+router.post("/gettranslation", (req, res) => {
+    let id = req.body.id;
+
+    let qr = `Select * from translation where resturant_ID = ${id}`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                data: result
+            })
+        } else {
+            res.status(500).json({
+                message: "Something went wrong"
+            })
+        }
+    })
+})
+
+// Router for forget password
+router.post("/forgetpassword", (req, res) => {
+    let email = req.body.email
+    let qr = `Select * from customer where email = '${email}'`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            if (result.length > 0) {
+
+                let mailOptions = {
+                    from: 'shoaibjamil43@gmail.com',
+                    to: email,
+                    subject: 'Reset your password',
+                    text: `Please open this link for verification http://localhost:3000/resetpassword/${result[0]['email']}`
+                };
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
+                res.status(200).json({
+                    data: result
+                })
+            } else {
+                res.status(404).json({
+                    message: "Email doesn't exist"
+                })
+            }
+
+        } else {
+            res.status(500).json({
+                error: err
+            })
+        }
+    })
+})
+
+//  router for reset password
+router.post("/resetpassword/:email", (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
+
+    let qr = `update customer 
+                set password = '${password}'
+                where email = '${email}'`;
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.json({
+                message: "Your password has been updated"
+            })
+        } else {
+            console.log(err, "err")
+        }
+    })
+})
+
+// Router for getrealtimemap
+router.get("/getreattiemap", (req, res) => {
+    let qr = `Select * from realtimemap`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                data: result
+            })
+        } else {
+            res.status(500).json({
+                error: err
+            })
+        }
+    })
+})
 
 
 module.exports = router
