@@ -5,16 +5,16 @@ const dbconfig = require('../db');
 
 // Router 1: http://localhost:5000/api/superadmin/getliveresturants
 // Status:
-router.get('/getliveresturants',(req,res)=>{
+router.get('/getliveresturants', (req, res) => {
     let qr = `Select * from resturant where status = "true"`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.json({
-                data:result
+                data: result
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -22,16 +22,16 @@ router.get('/getliveresturants',(req,res)=>{
 
 // Router 2 : http://localhost:5000/api/superadmin/getallorders
 // Status: working
-router.get('/getallorders',(req,res)=>{
+router.get('/getallorders', (req, res) => {
     let qr = `Select * from cart INNER JOIN resturant on cart.resturant_ID = resturant.ID`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.json({
-                data:result
+                data: result
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -39,21 +39,21 @@ router.get('/getallorders',(req,res)=>{
 
 // Router 3: http://localhost:5000/api/superadmin/addpage
 // Status: working
-router.post('/addpage',(req,res)=>{
+router.post('/addpage', (req, res) => {
     let title = req.body.title;
     let description = req.body.description;
     let status = req.body.status;
 
     let qr = `Insert into pages (title,description,status)
     values ('${title}','${description}','${status}')`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.status(200).json({
-                message:"data has been inserted"
+                message: "data has been inserted"
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -61,22 +61,22 @@ router.post('/addpage',(req,res)=>{
 
 // router 4: http://localhost:5000/api/superadmin/getallpages
 // status: working
-router.get('/getallpages',(req,res)=>{
-    let qr =  `Select * from pages`
-    dbconfig.query(qr,(err,result)=>{
+router.get('/getallpages', (req, res) => {
+    let qr = `Select * from pages`
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             if (result.length > 0) {
                 res.status(200).json({
-                    data:result
+                    data: result
                 })
             } else {
                 res.status(404).json({
-                    error:err
+                    error: err
                 })
             }
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -84,19 +84,19 @@ router.get('/getallpages',(req,res)=>{
 
 // Router 5: http://localhost:5000/api/superadmin/deletepage
 // status: working
-router.post("/deletepage",(req,res)=>{
+router.post("/deletepage", (req, res) => {
     let ID = req.body.ID
 
     let qr = `delete from pages 
     where ID = '${ID}'`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.status(200).json({
-                message:"Page has been deleted"
+                message: "Page has been deleted"
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -104,7 +104,7 @@ router.post("/deletepage",(req,res)=>{
 
 // Router 6: http://localhost:5000/api/superadmin/editpage
 // Status: working
-router.post("/editpage",(req,res)=>{
+router.post("/editpage", (req, res) => {
     let ID = req.body.ID;
     let title = req.body.title;
     let description = req.body.description;
@@ -112,14 +112,14 @@ router.post("/editpage",(req,res)=>{
     let qr = `update pages
     set title = '${title}', description ='${description}'
     where ID = ${ID}`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.status(200).json({
-                message:"Page has been upadated"
+                message: "Page has been upadated"
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -127,21 +127,21 @@ router.post("/editpage",(req,res)=>{
 
 // router 7: http://localhost:5000/api/superadmin/updatepagestatus
 // Status: working
-router.post('/updatepagestatus',(req,res)=>{
+router.post('/updatepagestatus', (req, res) => {
     let ID = req.body.ID;
     let status = req.body.status;
 
     let qr = `Update pages 
     set status = '${status}'
     where ID = ${ID}`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.status(200).json({
-                message:"page status has been update"
+                message: "page status has been update"
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -149,23 +149,23 @@ router.post('/updatepagestatus',(req,res)=>{
 
 // Router 8:  http://localhost:5000/api/superadmin/orderreport
 // Status: working
-router.get('/orderreport',(req,res)=>{
+router.get('/orderreport', (req, res) => {
     let qr = `SELECT * FROM cart INNER join customer on cart.customer_Id = customer.customer_Id`;
 
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             if (result.length > 0) {
                 res.status(200).json({
-                    data:result
+                    data: result
                 })
             } else {
                 res.status(404).json({
-                    error:err
+                    error: err
                 })
             }
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -173,22 +173,22 @@ router.get('/orderreport',(req,res)=>{
 
 // Router 9: http://localhost:5000/api/superadmin/getallresturants
 // status : working
-router.get('/getallresturants',(req,res)=>{
+router.get('/getallresturants', (req, res) => {
     let qr = `Select * from resturant`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             if (result.length > 0) {
                 res.status(200).json({
-                    data:result
+                    data: result
                 })
             } else {
                 res.status(404).json({
-                    error:err
+                    error: err
                 })
             }
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -196,19 +196,19 @@ router.get('/getallresturants',(req,res)=>{
 
 // Router 9: http://localhost:5000/api/superadmin/deleteresturant
 // Status: working
-router.post('/deleteresturant',(req,res)=>{
+router.post('/deleteresturant', (req, res) => {
     let ID = req.body.ID;
 
     let qr = `delete from resturant 
     where ID = ${ID} `
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.status(200).json({
-                message:"Resturant has been deleted"
+                message: "Resturant has been deleted"
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -216,21 +216,21 @@ router.post('/deleteresturant',(req,res)=>{
 
 // Router 10: http://localhost:5000/api/superadmin/deactivateresturant
 // Status: working
-router.post('/deactivateresturant',(req,res)=>{
+router.post('/deactivateresturant', (req, res) => {
     let ID = req.body.ID;
 
     let qr = `update resturant
     set status = 'false'
     where ID = ${ID}`
 
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.status(200).json({
-                message:"Dectivated the resturant"
+                message: "Dectivated the resturant"
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -238,21 +238,21 @@ router.post('/deactivateresturant',(req,res)=>{
 
 // router 11: http://localhost:5000/api/superadmin/activateresturant
 // Status: working
-router.post('/activateresturant',(req,res)=>{
+router.post('/activateresturant', (req, res) => {
     let ID = req.body.ID;
 
     let qr = `update resturant
     set status = 'true'
     where ID = ${ID}`
 
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.status(200).json({
-                message:"Activated the resturant"
+                message: "Activated the resturant"
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
         }
     })
@@ -260,7 +260,7 @@ router.post('/activateresturant',(req,res)=>{
 
 // Router 12: http://localhost:5000/api/superadmin/editresturant
 // Status: 
-router.post('/editresturant',(req,res)=>{
+router.post('/editresturant', (req, res) => {
     let ID = req.body.ID;
     let name = req.body.name;
     let description = req.body.description;
@@ -342,15 +342,70 @@ router.post('/editresturant',(req,res)=>{
     otest_mode = '${otest_mode}'
     where ID = ${ID}`
 
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.status(200).json({
-                message:"resturant has been updated"
+                message: "resturant has been updated"
             })
         } else {
             res.status(404).json({
-                error:err
+                error: err
             })
+        }
+    })
+})
+
+// Router: https://apinodejs.creativeparkingsolutions.com/api/superadmin/openclose
+// 
+router.post('/openclose', (req, res) => {
+    let online = req.body.online;
+    let offline = req.body.offline;
+    let statement = req.body.statment;
+    let to = req.body.to;
+    let from = req.body.from;
+    let id = req.body.id;
+
+    let qr = `Select count(*) as 'total' from open 
+    Where resturant_ID = ${id}`
+    dbconfig.query(qr, (err, result1) => {
+
+        if (!err) {
+            if (result1[0]['total'] === 0) {
+                let qr = `Insert into open(online,offline,statement,dateto,datefrom,resturant_ID)
+            values('${online}','${offline}','${statement}','${to}','${from}',${id})`
+                dbconfig.query(qr, (err, result) => {
+                    if (!err) {
+                        res.status(200).json({
+                            data: result
+                        })
+                    } else {
+                        res.status(404).json({
+                            error: err
+                        })
+                    }
+                })
+            } else {
+                let qr = `Update open set online = '${online}',offline='${offline}',statement='${statement}',dateto='${to}',datefrom='${from}'
+            where resturant_ID = ${id}`
+                dbconfig.query(qr, (err, result) => {
+                    if (!err) {
+                        res.status(200).json({
+                            data: result
+                        })
+                    } else {
+                        res.status(404).json({
+                            error: err
+                        })
+                    }
+                })
+
+            }
+        }
+        else {
+            res.status(404).json({
+                error: err
+            })
+
         }
     })
 })
