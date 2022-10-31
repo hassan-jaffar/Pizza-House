@@ -60,6 +60,7 @@ function SigninPage() {
             <img
               className="menuimg"
               src={require("../Images/logo.png")}
+              alt=".."
             />
           </Link>
           <h3 className="boldtext my-3">WELCOME BACK</h3>
