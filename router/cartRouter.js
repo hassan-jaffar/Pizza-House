@@ -1,16 +1,42 @@
 const express = require("express");
 const router = express.Router();
-const { check, validationResult  } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs')
 const JWT = require('jsonwebtoken')
 const dbconfig = require('../db');
+const multer = require("multer")
+
+// Image storage connfig
+var imgconfig = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './upload');
+    },
+    filename: function (req, file, callback) {
+        callback(null, `image-${Date.now()}.${file.originalname}`)
+    }
+});
+
+// image filter
+const isImage = (req, file, callback) => {
+    if (file.mimetype.startsWith("image")) {
+        callback(null, true)
+    } else {
+        callback(null, Error("only image is allowed"))
+    }
+}
+
+var upload = multer({
+    storage: imgconfig,
+    fileFilter: isImage
+})
 
 
-// ROUTER 2: Creating orders by cart by POST method PATH: http://localhost:5000/api/admin/cart/:id
+
+// ROUTER 2: Creating orders by cart by POST method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/cart/:id
 // STATUS: WORKING
-router.post('/cart',(req,res)=>{
+router.post('/cart', (req, res) => {
     console.log(req.body)
-    let customer_id = req.body .userID;
+    let customer_id = req.body.userID;
     let status = 1;
     let product_id = req.body.ProductID;
     let quantity = req.body.quantity;
@@ -23,34 +49,34 @@ router.post('/cart',(req,res)=>{
     // values('${customer_id}',${status})`
 
     let qr = `Select * from cart where customer_id = ${customer_id} and Status = 1`
-     dbconfig.query(qr,(err,results)=>{
-     
-        if(!err){
-            if(results.length<=0){
+    dbconfig.query(qr, (err, results) => {
+
+        if (!err) {
+            if (results.length <= 0) {
                 // Creating the cart in db
                 let qr = `insert into cart(customer_Id,Status,Orderstatus)
                         values(${customer_id},${status},1)`
-                dbconfig.query(qr,(err,result)=>{
-                    if(!err){
-                        if(result.affectedRows === 1){
+                dbconfig.query(qr, (err, result) => {
+                    if (!err) {
+                        if (result.affectedRows === 1) {
                             let qr = `insert into orderitem(ProductID,Quantity,Price,Order_ID)
-                            values(${product_id},${quantity},${price *quantity},${result.insertId})`
-                            dbconfig.query(qr,(err,result)=>{
-                                if(!err){
-                                    if(result.affectedRows === 1){
+                            values(${product_id},${quantity},${price * quantity},${result.insertId})`
+                            dbconfig.query(qr, (err, result) => {
+                                if (!err) {
+                                    if (result.affectedRows === 1) {
                                         res.json({
-                                            message:"Orderitem has been created",
-                                            data:result
+                                            message: "Orderitem has been created",
+                                            data: result
                                         })
                                     }
-                                    else{
+                                    else {
                                         res.json({
-                                            error:"Error in creating orderitem"
+                                            error: "Error in creating orderitem"
                                         })
                                     }
-                                }else{
+                                } else {
                                     res.status(401).json({
-                                        message:"Something went wrong in order item"
+                                        message: "Something went wrong in order item"
                                     })
                                 }
                             })
@@ -59,14 +85,14 @@ router.post('/cart',(req,res)=>{
                             //     data:result.insertId
                             // })
                         }
-                        else{
+                        else {
                             res.status(401).json({
-                                message:"SOmething wrong in creation of cart"
+                                message: "SOmething wrong in creation of cart"
                             })
                         }
                     }
-                    else{
-                        console.log(err,'err')
+                    else {
+                        console.log(err, 'err')
                     }
                 })
 
@@ -76,74 +102,74 @@ router.post('/cart',(req,res)=>{
                 //     data:result[0]['cart_Id']
                 // })
             }
-            else{
+            else {
                 let qrordetitem = `Select * from orderitem where order_ID =${results[0]['cart_Id']} and ProductID = ${product_id} `;
-                dbconfig.query(qrordetitem,(err,result)=>{
-                   
+                dbconfig.query(qrordetitem, (err, result) => {
+
                     if (!err) {
-                        if (result.length==0) {
+                        if (result.length == 0) {
                             let qr = `insert into orderitem(ProductID,Quantity,Price,Order_ID)
-                            values(${product_id},${quantity},${price *quantity},${results[0]['cart_Id']})`
-                            dbconfig.query(qr,(err,result)=>{
-                                if(!err){
-                                    if(result.affectedRows === 1){
+                            values(${product_id},${quantity},${price * quantity},${results[0]['cart_Id']})`
+                            dbconfig.query(qr, (err, result) => {
+                                if (!err) {
+                                    if (result.affectedRows === 1) {
                                         res.json({
-                                            message:"Orderitem has been created",
-                                            data:result
+                                            message: "Orderitem has been created",
+                                            data: result
                                         })
                                     }
-                                    else{
+                                    else {
                                         res.json({
-                                            error:"Error in creating orderitem"
+                                            error: "Error in creating orderitem"
                                         })
                                     }
                                 }
-                                else{
+                                else {
                                     res.json({
-                                        error:"Error"
+                                        error: "Error"
                                     })
                                 }
                             })
                         } else {
-                            console.log('sssss' +results[0]['cart_Id'])
-                        // Updating the cart quantity
-                        let qr = `update orderitem 
+                            console.log('sssss' + results[0]['cart_Id'])
+                            // Updating the cart quantity
+                            let qr = `update orderitem 
                         set Quantity = ${quantity},
                         Price=${price * quantity}
                         where Order_ID = ${results[0]['cart_Id']}`
-                        dbconfig.query(qr,(err,result)=>{
-                            if(!err){
-                                res.json({
-                                    data:result
-                                })
-                            }else{
-                                console.log(err,'err')
-                            }
-                        })
-                        // res.json({
-                        //     data:result
-                        // })
+                            dbconfig.query(qr, (err, result) => {
+                                if (!err) {
+                                    res.json({
+                                        data: result
+                                    })
+                                } else {
+                                    console.log(err, 'err')
+                                }
+                            })
+                            // res.json({
+                            //     data:result
+                            // })
                         }
-                    
+
                     } else {
-                        console.log(err,"err")
+                        console.log(err, "err")
                     }
                 })
- 
 
 
-               
+
+
             }
         }
-        else{
-            console.log(err,'errs');
+        else {
+            console.log(err, 'errs');
         }
     })
 });
 
-// ROUTER 2: Showing orders in cart by GET method PATH: http://localhost:5000/api/admin/getcartitems
+// ROUTER 2: Showing orders in cart by GET method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getcartitems
 // STATUS: WORKING
-router.post('/getcartitems',(req,res)=>{
+router.post('/getcartitems', (req, res) => {
     let customer_Id = req.body.customer_Id;
 
     let qr = `SELECT customer.customer_Id,item.*,orderitem.Price as "totalp",orderitem.Quantity ,orderitem.id as "orderitemid",customer.name,cart.Status,cart.DateTime,cart.cart_Id FROM orderitem 
@@ -151,21 +177,21 @@ router.post('/getcartitems',(req,res)=>{
     inner join customer on customer.customer_Id=cart.customer_Id 
     INNER join item on item.ID = orderitem.ProductID 
     WHERE cart.customer_Id=${customer_Id} and status=1;`
-    dbconfig.query(qr,(err,result)=>{
-        if(!err){
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
             res.json({
-                data:result
+                data: result
             })
         }
-        else{
-            console.log(err,"err")
+        else {
+            console.log(err, "err")
         }
     })
 })
 
-// ROUTER 3: Updating the quantity of cart item  by PUT method PATH: http://localhost:5000/api/admin/updatecart
+// ROUTER 3: Updating the quantity of cart item  by PUT method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/updatecart
 // STATUS: WORKING
-router.post('/updatecart',(req,res)=>{
+router.post('/updatecart', (req, res) => {
     let customer_Id = req.body.customer_Id;
     let orderID = req.body.orderID;
     let quantity = req.body.quantitys
@@ -177,102 +203,101 @@ router.post('/updatecart',(req,res)=>{
     // inner join customer on customer.customer_Id=cart.customer_Id 
     // INNER join item on item.ID = orderitem.ProductID 
     // WHERE cart.customer_Id=${customer_Id} and orderitem.ID = ${orderID}`
-   
-            if(orderID>0){
 
-                if(quantity>0)
-                {
+    if (orderID > 0) {
+
+        if (quantity > 0) {
 
 
-                    let qr = `update orderitem 
+            let qr = `update orderitem 
                     set Quantity = ${quantity}
-                    , Price = ${price* quantity}
+                    , Price = ${price * quantity}
                     where ID = ${orderID}`
-                    dbconfig.query(qr,(err,result)=>{
-                        if(!err){
-                            res.json({
-                                message:"Your item has been updated",
-                                data:result
-                            })
-                        }
-                        else{
-                            res.json({
-                                error:"Something went wrong in updation of cart quantity"
-                            })
-                        }
+            dbconfig.query(qr, (err, result) => {
+                if (!err) {
+                    res.json({
+                        message: "Your item has been updated",
+                        data: result
                     })
                 }
-                else{
-
-
-                    let qr = `Delete From orderitem 
-                    where ID = ${orderID}`
-                    dbconfig.query(qr,(err,result)=>{
-                        if(!err){
-                            res.json({
-                                message:"Your item has been Delete",
-                                data:result
-                            })
-                        }
-                        else{
-                            res.json({
-                                error:"Something went wrong in Delete"
-                            })
-                        }
+                else {
+                    res.json({
+                        error: "Something went wrong in updation of cart quantity"
                     })
                 }
-
-          
-            }
+            })
         }
-        
+        else {
+
+
+            let qr = `Delete From orderitem 
+                    where ID = ${orderID}`
+            dbconfig.query(qr, (err, result) => {
+                if (!err) {
+                    res.json({
+                        message: "Your item has been Delete",
+                        data: result
+                    })
+                }
+                else {
+                    res.json({
+                        error: "Something went wrong in Delete"
+                    })
+                }
+            })
+        }
+
+
+    }
+}
+
 )
 
 
-// Router 4 : http://localhost:5000/api/admin/cartcheckout
+// Router 4 : https://apinodejs.creativeparkingsolutions.com/api/admin/cartcheckout
 // Status:
-router.post('/cartcheckout',(req,res)=>{
+router.post('/cartcheckout', (req, res) => {
     let customer_Id = req.body.customer_Id
     let comment = req.body.comment
     let total = req.body.total
 
     let qr = `SELECT * FROM cart
                 where customer_Id=${customer_Id}`
-    dbconfig.query(qr,(err,result)=>{
-        if(!err){
-            if (result.length>0) {
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            if (result.length > 0) {
                 let qr = `SELECT * FROM address
             where customer_Id=${customer_Id} and address_status =1`
-                        dbconfig.query(qr,(err,result)=>{
-                if(!err){
-                    // res.json({
-                    //     data:result[0]['customer_Id']
-                    // })
-                                let qr = `update cart 
+                dbconfig.query(qr, (err, result) => {
+                    if (!err) {
+                        // res.json({
+                        //     data:result[0]['customer_Id']
+                        // })
+                        let qr = `update cart 
             set comment = '${comment}'
             , Status = 2
             , Orderstatus = 1
             , address_Id = ${result[0]['ID']}
             , total = "${total}"
             where customer_Id=${customer_Id}`
-            dbconfig.query(qr,(err,result)=>{
-                if(!err){
-                    res.json({
-                        message:"Your Cart has been checkout"
-                    })
-                }
-                else{
-                    console.log(err,"err")
-                }
-            })
+                        dbconfig.query(qr, (err, result) => {
+                            if (!err) {
+                                res.json({
+                                    message: "Your Cart has been checkout"
+                                })
+                            }
+                            else {
+                                console.log(err, "err")
+                            }
+                        })
 
-                }
-                else{
-                    console.log(err,"err")
-                }
-            })
+                    }
+                    else {
+                        console.log(err, "err")
+                    }
+                })
             } else {
-                console.log(err,'err')
+                console.log(err, 'err')
             }
 
             // let qr = `update cart 
@@ -291,16 +316,16 @@ router.post('/cartcheckout',(req,res)=>{
             //     }
             // })
         }
-        else{
-            console.log(err,"err")
+        else {
+            console.log(err, "err")
         }
     })
 
 })
 
-// ROUTER 3: Updating the orders status by PUT method PATH: http://localhost:5000/api/admin/updatestatus/:id
+// ROUTER 3: Updating the orders status by PUT method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/updatestatus/:id
 // STATUS: WORKING
-router.put('/updatestatus/:id',(req,res)=>{
+router.put('/updatestatus/:id', (req, res) => {
     let id = req.params.id;
     let status = req.body.status;
 
@@ -308,127 +333,152 @@ router.put('/updatestatus/:id',(req,res)=>{
             update cart 
                     set Status = ${status}
                     where cart_Id = ${id}`
-     dbconfig.query(qr,(err,result)=>{
-        
+    dbconfig.query(qr, (err, result) => {
+
         if (err) {
-            console.log(err,'errs');
+            console.log(err, 'errs');
         }
         else {
             res.send({
-                message : 'Order is Updated',
-               
+                message: 'Order is Updated',
+
             });
         }
     })
 });
 
-// ROUTER 4: Getting the orders  by GET method PATH: http://localhost:5000/api/admin/getorders
+// ROUTER 4: Getting the orders  by GET method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getorders
 // STATUS: WORKING
-router.get('/getorders',(req,res)=>{
+router.get('/getorders', (req, res) => {
     let qr = `
     SELECT * FROM cart
             `
-     dbconfig.query(qr,(err,result)=>{
-        
+    dbconfig.query(qr, (err, result) => {
+
         if (err) {
-            console.log(err,'errs');
+            console.log(err, 'errs');
         }
         else {
             res.send({
-                data : result
-               
+                data: result
+
             });
         }
     })
 });
 
-// ROUTER 5: Deleting the order  by DELETE method PATH: http://localhost:5000/api/admin/deleteorder/:id
+// ROUTER 5: Deleting the order  by DELETE method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/deleteorder/:id
 // STATUS: WORKING
-router.get('/deleteorder/:id',(req,res)=>{
+router.get('/deleteorder/:id', (req, res) => {
     let id = req.params.id
     let qr = `delete from cart 
     where cart_Id = ${id}`
-     dbconfig.query(qr,(err,result)=>{
-        
+    dbconfig.query(qr, (err, result) => {
+
         if (err) {
-            console.log(err,'errs');
+            console.log(err, 'errs');
         }
         else {
             res.send({
-                message:"Orders has been deleted"
-               
+                message: "Orders has been deleted"
+
             });
         }
     })
 });
 
-// ROUTER : http://localhost:5000/api/admin/getcart
+// ROUTER : https://apinodejs.creativeparkingsolutions.com/api/admin/getcart
 // STATUS:
-router.post('/getcart',(req,res)=>{
+router.post('/getcart', (req, res) => {
     let customer_Id = req.body.customer_Id
 
     let qr = `SELECT * FROM cart
     inner join orderitem on cart.cart_Id=orderitem.Order_ID  
     WHERE cart.customer_Id= ${customer_Id}`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.json({
-                data:result
+                data: result
             })
         } else {
-            console.log(err,'err')
+            console.log(err, 'err')
         }
     })
 })
 
-// ROUTER : http://localhost:5000/api/admin/getitemmanagement/:itemid/:categoryid
+// ROUTER : https://apinodejs.creativeparkingsolutions.com/api/admin/getitemmanagement/:itemid/:categoryid
 // STATUS:
-router.get('/getitemmanagement/:itemid/:categoryid',(req,res)=>{
+router.get('/getitemmanagement/:itemid/:categoryid', (req, res) => {
     let categoryid = req.params.categoryid
     let itemid = req.params.itemid
 
     let qr = `SELECT * FROM item WHERE category_id = ${categoryid} and ID = ${itemid}`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.json({
-                data:result[0]
+                data: result[0]
             })
         } else {
-            console.log(err,'err')
+            console.log(err, 'err')
         }
     })
 })
 
-// ROUTER : http://localhost:5000/api/admin/updateitemmanagement/:itemid/:categoryid
+// ROUTER : https://apinodejs.creativeparkingsolutions.com/api/admin/updateitemmanagement/:itemid/:categoryid
 // STATUS:
-router.post('/updateitemmanagement/:itemid/:categoryid',(req,res)=>{
+router.post('/updateitemmanagement/:itemid/:categoryid', upload.single("photo"), (req, res) => {
     let categoryid = req.params.categoryid
     let itemid = req.params.itemid
     let title = req.body.title
     let Description = req.body.Description
     let Price = req.body.Price
+    const filename = req.file.path;
+    let discountableitem = req.body.discountableitem;
+    let available = req.body.available;
+    let variant = req.body.variant;
+    let sunday = req.body.sunday;
+    let monday = req.body.monday;
+    let tuesday = req.body.tuesday;
+    let wednesday = req.body.wednesday;
+    let thursday = req.body.thursday;
+    let friday = req.body.friday;
+    let saturday = req.body.saturday;
+    let vat = req.body.vat;
+
 
 
 
     let qr = `update item 
     set Title = "${title}"
     , Description = "${Description}"
-    , Price = "${Price}"
+    , Price = "${Price}",
+    Image = '${filename}',
+    discountableitem = '${discountableitem}',
+    available = '${available}',
+    variant = '${variant}',
+    sunday = '${sunday}',
+    monday = '${monday}',
+    tuesday = '${tuesday}',
+    wednesday = '${wednesday}',
+    thursday = '${thursday}',
+    friday = '${friday}',
+    saturday = '${saturday}',
+    vat = '${vat}'
     WHERE category_id = ${categoryid} and ID = ${itemid}`
-    dbconfig.query(qr,(err,result)=>{
+    dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.json({
-                data:result[0]
+                data: result[0]
             })
         } else {
-            console.log(err,'err')
+            console.log(err, 'err')
         }
     })
 })
 
-// ROUTER 2: Showing orders in cart by GET method PATH: http://localhost:5000/api/admin/getcartorderdetailitems
+// ROUTER 2: Showing orders in cart by GET method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getcartorderdetailitems
 // STATUS: WORKING
-router.post('/getcartorderdetailitems',(req,res)=>{
+router.post('/getcartorderdetailitems', (req, res) => {
     let customer_Id = req.body.customer_Id;
 
     let qr = `SELECT customer.customer_Id,item.*,orderitem.Price as "totalp",orderitem.Quantity ,orderitem.id as "orderitemid",customer.name,cart.Status,cart.DateTime,cart.cart_Id FROM orderitem 
@@ -436,62 +486,14 @@ router.post('/getcartorderdetailitems',(req,res)=>{
     inner join customer on customer.customer_Id=cart.customer_Id 
     INNER join item on item.ID = orderitem.ProductID 
     WHERE cart.customer_Id=${customer_Id}`
-    dbconfig.query(qr,(err,result)=>{
-        if(!err){
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
             res.json({
-                data:result
+                data: result
             })
         }
-        else{
-            console.log(err,"err")
-        }
-    })
-})
-
-// Router for count of order
-router.post('/getcustomerorderscount',(req,res)=>{
-
-    let customer_Id = req.body.customer_Id
-
-    // Main query
-    let qr  = `SELECT count(*) as 'total' FROM cart 
-    Where 	customer_Id=${customer_Id}
-   `;
-    dbconfig.query(qr,(err,result)=>{
-        if (!err) {
-            if(result[0]['total']>0){
-                res.json({  
-                    data:'true',
-                    message:result[0]['total']
-                })
-            }
-            else{
-                res.status(401).json({
-                    data:'false',
-                    message:result[0]['total']
-                })
-            }
-        } else {
-            console.log(err,"err")
-        }
-    })
-
-})
-
-// Router /getlastaddress
-router.post("/getlastaddress",(req,res)=>{
-    let customer_Id = req.body.customer_Id;
-
-    let qr = `Select * from address where customer_Id = ${customer_Id} and address_status = 1`
-    dbconfig.query(qr,(err,result)=>{
-        if (!err) {
-            res.status(200).json({
-                data:result[0]
-            })
-        } else {
-            res.status(200).json({
-                message:"Last address not found"
-            })
+        else {
+            console.log(err, "err")
         }
     })
 })
