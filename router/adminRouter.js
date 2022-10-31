@@ -5,10 +5,10 @@ const multer = require("multer")
 
 // Image storage connfig
 var imgconfig = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, "/uploads");
+    destination: function (req, file, callback) {
+        callback(null, './upload');
     },
-    filename: (req, file, callback) => {
+    filename: function (req, file, callback) {
         callback(null, `image-${Date.now()}.${file.originalname}`)
     }
 });
@@ -27,7 +27,30 @@ var upload = multer({
     fileFilter: isImage
 })
 
-// ROUTER 1: Getting all the menu by GET method PATH: http://localhost:5000/api/admin/getallmenu
+// Image check api test
+router.post('/imageuploadcheck', upload.single("photo"), (req, res) => {
+    const { filename } = req.file;
+    if (filename) {
+        try {
+            res.status(200).json({
+                data: filename
+            })
+        } catch (error) {
+            res.status(404).json({
+                error: err
+            })
+        }
+    } else {
+        res.status(404).json({
+            message: "in the else",
+            error: err
+        })
+    }
+    console.log(req.file)
+
+})
+
+// ROUTER 1: Getting all the menu by GET method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getallmenu
 // STATUS: WORKING
 router.get('/getallmenu', (req, res) => {
     let qr = 'SELECT * FROM category'
@@ -44,13 +67,14 @@ router.get('/getallmenu', (req, res) => {
     })
 })
 
-// ROUTER 2: Creating the menu by POST method PATH: http://localhost:5000/api/admin/createmenu
+// ROUTER 2: Creating the menu by POST method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/createmenu
 // STATUS: WORKING
 router.post('/createmenu', (req, res) => {
     let name = req.body.name;
+    let discountable = req.body.discountable
 
-    let qr = `insert into category(Name)
-                    values('${name}')`
+    let qr = `insert into category(Name,discountable)
+                    values('${name}','${discountable}')`
 
     dbconfig.query(qr, (err, result) => {
         if (err) {
@@ -63,15 +87,33 @@ router.post('/createmenu', (req, res) => {
 });
 
 
-// ROUTER 3: Updating the menu by PUT method PATH: http://localhost:5000/api/admin/updatemenu
+// ROUTER 3: Updating the menu by PUT method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/updatemenu
 // STATUS: WORKING
 router.post('/updatemenu', (req, res) => {
     let ID = req.body.ID;
     let title = req.body.title;
+    let editdiscountable = req.body.editdiscountable;
+    let sunday = req.body.sunday
+    let monday = req.body.monday;
+    let tuesday = req.body.tuesday;
+    let wednesday = req.body.wednesday;
+    let thursday = req.body.thursday;
+    let friday = req.body.friday;
+    let saturday = req.body.saturday;
+
+
 
 
     let qr = `update category 
-                    set Name = '${title}'
+                    set Name = '${title}',
+                    set discountable = '${editdiscountable}',
+                    set sunday = '${sunday}',
+                    set monday = '${monday}',
+                    set tuesday = '${tuesday}',
+                    set wednesday = '${wednesday}',
+                    set thursday = '${thursday}',
+                    set friday = '${friday}',
+                    set saturday = '${saturday}'
                     where id = ${ID}`;
 
     dbconfig.query(qr, (err, result) => {
@@ -86,7 +128,7 @@ router.post('/updatemenu', (req, res) => {
 })
 
 
-// ROUTER 4: Deleting the menu by DELETE method PATH: http://localhost:5000/api/admin/deletemenu
+// ROUTER 4: Deleting the menu by DELETE method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/deletemenu
 // STATUS: WORKING
 router.post('/deletemenu', (req, res) => {
     let ID = req.body.ID
@@ -106,30 +148,34 @@ router.post('/deletemenu', (req, res) => {
 })
 
 
-// ROUTER 4: Creating the item of category by POST method PATH: http://localhost:5000/api/admin/createitem
-// STATUS: WORKING
-router.post('/createitem', upload.single("image"), (req, res) => {
-    let category_id = req.body.category_id
+// ROUTER 4: Creating the item of category by POST method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/createitem
+// STATUS: WORKING,
+router.post('/createitem', upload.single("photo"), (req, res) => {
+
+
+    let category_id = req.body.categoryID;
     let title = req.body.title;
-    let { filename } = req.image;
+    let discountableitem = req.body.discountableitem;
+    const filename = req.file.path;
     let description = req.body.description;
-    console.log(req.file)
     let price = req.body.price;
-    let qr = `insert into item(category_id,Title,Description,Price,Image)
-                   values(${category_id},'${title}','${description}','${price}','${filename}')`;
+
+
+    let qr = `insert into item(category_id,Title,Description,Price,Image,discountableitem)
+                   values(${category_id},'${title}','${description}','${price}','${filename}','${discountableitem}')`;
 
     dbconfig.query(qr, (err, result) => {
         if (err) {
             console.log(err)
         }
-        res.send({
+        return res.send({
             message: 'data inserted'
         });
 
     });
 })
 
-// ROUTER 5: Get all the item of category by GET method PATH: http://localhost:5000/api/admin/getitem/:id
+// ROUTER 5: Get all the item of category by GET method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getitem/:id
 // STATUS: WORKING
 router.get('/getitem/:id', (req, res) => {
     let category_id = req.params.id
@@ -147,7 +193,7 @@ router.get('/getitem/:id', (req, res) => {
     });
 })
 
-// ROUTER 6: Get all the item by GET method PATH: http://localhost:5000/api/admin/getallitems
+// ROUTER 6: Get all the item by GET method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getallitems
 // STATUS: WORKING
 router.get('/getallitems', (req, res) => {
     let num = 3;
@@ -191,7 +237,7 @@ router.get('/getallitems', (req, res) => {
     //     })
 })
 
-// ROUTER 7: Update the item of category by GET method PATH: http://localhost:5000/api/admin/updateitem/:id
+// ROUTER 7: Update the item of category by GET method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/updateitem/:id
 // STATUS: WORKING
 router.put('/updateitem/:id', (req, res) => {
     let id = req.params.id;
@@ -215,7 +261,7 @@ router.put('/updateitem/:id', (req, res) => {
     });
 })
 
-// ROUTER 7: Delete the item of category by DELETE method PATH: http://localhost:5000/api/admin/deleteitem/:id
+// ROUTER 7: Delete the item of category by DELETE method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/deleteitem/:id
 // STATUS: WORKING
 router.delete('/deleteitem/:id', (req, res) => {
     let id = req.params.id
@@ -234,15 +280,14 @@ router.delete('/deleteitem/:id', (req, res) => {
 
 })
 
-// Router: http://localhost:5000/api/admin/getliveorders
+// Router: https://apinodejs.creativeparkingsolutions.com/api/admin/getliveorders
 // Status: Working
-router.get('/getliveorders', (req, res) => {
+router.post('/getliveorders', (req, res) => {
 
-    let customer_Id = req.body.customer_Id
+    let id = req.body.id
 
     // Main query
-    let qr = `SELECT * FROM cart INNER JOIN address on cart.customer_Id = address.customer_Id INNER JOIN customer on customer.customer_Id = address.customer_Id WHERE cart.address_Id = address.ID;
-   `;
+    let qr = `SELECT * FROM cart INNER JOIN address on cart.customer_Id = address.customer_Id INNER JOIN customer on customer.customer_Id = address.customer_Id WHERE cart.address_Id = address.ID and cart.resturant_ID = ${id}`;
     dbconfig.query(qr, (err, result) => {
         if (!err) {
             if (result.length > 0) {
@@ -262,15 +307,15 @@ router.get('/getliveorders', (req, res) => {
 
 })
 
-// Router: http://localhost:5000/api/admin/getliveorderscount
+// Router: https://apinodejs.creativeparkingsolutions.com/api/admin/getliveorderscount
 // Status: Working
-router.get('/getliveorderscount', (req, res) => {
+router.post('/getliveorderscount', (req, res) => {
 
-    let customer_Id = req.body.customer_Id
+    let id = req.body.id
 
     // Main query
     let qr = `SELECT count(*) as 'total' FROM cart 
-    Where 	Orderstatus='1'
+    Where 	Orderstatus='1' and resturant_ID = ${id}
    `;
     dbconfig.query(qr, (err, result) => {
         if (!err) {
@@ -293,7 +338,7 @@ router.get('/getliveorderscount', (req, res) => {
 
 })
 
-// Router 6: http://localhost:5000/api/admin/acceptorder
+// Router 6: https://apinodejs.creativeparkingsolutions.com/api/admin/acceptorder
 // Status:
 router.post('/acceptorder', (req, res) => {
     let cart_Id = req.body.cart_Id;
@@ -313,7 +358,7 @@ router.post('/acceptorder', (req, res) => {
     })
 })
 
-// Router 7: http://localhost:5000/api/admin/rejectorder
+// Router 7: https://apinodejs.creativeparkingsolutions.com/api/admin/rejectorder
 // Status:
 router.post('/rejectorder', (req, res) => {
     let cart_Id = req.body.cart_Id;
@@ -332,10 +377,10 @@ router.post('/rejectorder', (req, res) => {
     })
 })
 
-// Router 8 : Get all customers PATH: http://localhost:5000/api/admin/getcustomers
+// Router 8 : Get all customers PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getcustomers
 // STATUS:
 router.get('/getcustomers', (req, res) => {
-    let qr = `SELECT * FROM customer`
+    let qr = `SELECT * FROM customer where role = 0`
     dbconfig.query(qr, (err, result) => {
         if (!err) {
             res.json({
@@ -348,7 +393,7 @@ router.get('/getcustomers', (req, res) => {
 })
 
 
-// Router 9 : Get all customers PATH: http://localhost:5000/api/admin/getallorders
+// Router 9 : Get all customers PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getallorders
 // STATUS:
 router.post('/getallorders', (req, res) => {
     let id = req.body.id;
@@ -371,8 +416,7 @@ router.post('/getallorders', (req, res) => {
 
 
 
-
-// ROUTER 11: Login a admin by GET method PATH: http://localhost:5000/api/admin/loginadmin
+// ROUTER 11: Login a admin by GET method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/loginadmin
 // STATUS:
 router.post('/loginadmin', (req, res) => {
 
@@ -381,7 +425,7 @@ router.post('/loginadmin', (req, res) => {
 
 
     let qr = `SELECT * FROM customer 
-                     where email = '${email}' and role = 1`
+                     where email = '${email}' and role !=0`
 
     dbconfig.query(qr, (err, result) => {
         if (!err) {
@@ -413,7 +457,7 @@ router.post('/loginadmin', (req, res) => {
 
 });
 
-// ROUTER 10: Register a admin by POST method PATH: http://localhost:5000/api/admin/registeradmin
+// ROUTER 10: Register a admin by POST method PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/registeradmin
 // STATUS: WORKING
 router.post('/registeradmin', async (req, res) => {
 
@@ -469,15 +513,12 @@ router.post('/registeradmin', async (req, res) => {
 
 });
 
-// Router 11 : Get all customers PATH: http://localhost:5000/api/admin/getorderdetails/:id/:cid
+// Router 11 : Get all customers PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getorderdetails/:id/:cid
 // STATUS:
 router.get('/getorderdetails/:id/:cid', (req, res) => {
     let id = req.params.id
 
-    let qr = `SELECT * FROM address 
-    INNER JOIN cart on cart.address_Id = address.ID
-    INNER JOIN customer on customer.customer_Id = cart.customer_Id
-    WHERE cart.cart_Id = ${id};`
+    let qr = `SELECT *,customer.name as "cname" FROM address INNER JOIN cart on cart.address_Id = address.ID INNER JOIN customer on customer.customer_Id = cart.customer_Id INNER JOIN resturant on resturant.ID = address.resturant_ID WHERE cart.cart_Id = ${id};`
     // WHERE address.address_status = 1
     dbconfig.query(qr, (err, result) => {
         if (!err) {
@@ -509,7 +550,7 @@ router.get('/getorderlength', (req, res) => {
 
 })
 
-// Router 11 : Get all customers PATH: http://localhost:5000/api/admin/getcustomerlength
+// Router 11 : Get all customers PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getcustomerlength
 // STATUS:
 router.get('/getcustomerlength', (req, res) => {
 
@@ -527,7 +568,7 @@ router.get('/getcustomerlength', (req, res) => {
 
 })
 
-// Router 11 : Get all customers PATH: http://localhost:5000/api/admin/getitemslength
+// Router 11 : Get all customers PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getitemslength
 // STATUS:
 router.get("/getitemslength", (req, res) => {
     let qr = `Select count(*) as 'total' from item`
