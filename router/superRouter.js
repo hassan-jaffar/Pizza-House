@@ -428,5 +428,25 @@ router.get('/resturantcount', (req, res) => {
     })
 })
 
+// Router: https://apinodejs.creativeparkingsolutions.com/api/superadmin/getopenclose
+// Status:
+router.post('/getopenclose', (req, res) => {
+    let id = req.body.id;
+
+    let qr = `Select * from open where resturant_ID = ${id}`
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                data: result
+            })
+        } else {
+            res.status(404).json({
+                error: err
+            })
+        }
+    })
+})
+
+
 
 module.exports = router
