@@ -410,4 +410,23 @@ router.post('/openclose', (req, res) => {
     })
 })
 
+// router 13: https://apinodejs.creativeparkingsolutions.com/api/superadmin/resturantcount
+// status: working
+router.get('/resturantcount', (req, res) => {
+    let qr = `Select count(*) as 'total' from resturant`
+
+    dbconfig.query(qr, (err, result) => {
+        if (!err) {
+            res.status(200).json({
+                data: result[0]['total']
+            })
+        } else {
+            res.status(404).json({
+                error: err
+            })
+        }
+    })
+})
+
+
 module.exports = router
