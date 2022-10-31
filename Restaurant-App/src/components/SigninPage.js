@@ -54,7 +54,7 @@ function SigninPage() {
     <>
       <ToastContainer />
       <div className="row justify-content-center">
-        <div className="col-md-4 text-center mt-2 responsiveness">
+        <div className="col-lg-4 text-center mt-2 responsiveness">
           <Link to="/">
             <img
               className="menuimg"
@@ -64,7 +64,7 @@ function SigninPage() {
           </Link>
           <h3 className="boldtext my-3">WELCOME BACK</h3>
           <form>
-            <div className="my-5 ms-5 me-2 text-start centeredItems">
+            <div className="mt-5 mb-2 ms-5 me-2 text-start centeredItems">
               <label for="emailad">Email Address</label>
               <input
                 id="emailad"
@@ -85,7 +85,7 @@ function SigninPage() {
                 onChange={(e) => { setpassword(e.target.value) }}
                 required
               />
-              <div class="form-check mt-5">
+              <div class="form-check mt-3">
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -97,27 +97,21 @@ function SigninPage() {
               </div>
             </div>
 
-            <div className="mb-5">
+            <div>
               <button
                 className="btn btn-primary signinbtn"
                 onClick={Login}
               >
                 SIGN IN
               </button>
-              <button className="btn btn-light signinbtn">
-                <i class="fa-brands fa-google"></i> GOOGLE
-              </button>
-              <button className="btn btn-light signinbtn">
-                <i class="fa-brands fa-square-facebook"></i> FACEBOOK
-              </button>
             </div>
           </form>
 
-          <p className="my-5">
+          <p className="my-3">
             Do you have an account yet? <Link to="/register">Register</Link>
           </p>
         </div>
-        <div className="col-md-8 responsiveness">
+        <div className="col-lg-8 responsiveness">
           <img
             className="signinimg"
             src="https://img.lovepik.com/photo/20211122/large/lovepik-pizza-picture_500753800.jpg"
