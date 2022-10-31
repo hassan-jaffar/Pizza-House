@@ -3,10 +3,9 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 import "../Css/order.css";
-import moment from "moment";
+import moment, { HTML5_FMT } from "moment";
 import { DatePicker, Space } from "antd";
 import "antd/dist/antd.css";
-
 
 function Orders() {
   const { RangePicker } = DatePicker;
@@ -23,27 +22,25 @@ function Orders() {
       settodate(moment(dates[1]).format("DD-MM-YYYY"));
 
       if (dates[0] && dates[1]) {
-        const temporders = duplicateorder.filter(
-          (orders) => {
-            console.log(Date.parse(dates[0]._d)
-              , Date.parse(orders.DateTime), Date.parse(dates[1]._d)
-            )
-            return Date.parse(dates[0]._d) < Date.parse(orders.DateTime) && Date.parse(dates[1]._d) > Date.parse(orders.DateTime)
-          }
-        );
+        const temporders = duplicateorder.filter((orders) => {
+          console.log(
+            Date.parse(dates[0]._d),
+            Date.parse(orders.DateTime),
+            Date.parse(dates[1]._d)
+          );
+          return (
+            Date.parse(dates[0]._d) < Date.parse(orders.DateTime) &&
+            Date.parse(dates[1]._d) > Date.parse(orders.DateTime)
+          );
+        });
         setOrder(temporders);
+      } else {
+        setOrder(order);
       }
-      else {
-        setOrder(order)
-      }
+    } else {
+      setOrder(order);
     }
-    else {
-      setOrder(order)
-    }
-
-
   }
-
 
   useEffect(() => {
     async function fetchData() {
@@ -53,10 +50,7 @@ function Orders() {
       };
       try {
         const data = await (
-          await axios.post(
-            "http://localhost:5000/api/admin/getcart",
-            user
-          )
+          await axios.post("http://localhost:5000/api/admin/getcart", user)
         ).data;
         setOrder(data.data);
         setduplicateorder(data.data);
@@ -136,39 +130,23 @@ function Orders() {
             <div className="col-md-9"> */}
       <div className="row justify-content-center">
         <div className="col-md-10 mx-5 mt-5 mb-2 pt-2 pb-5 px-5 br bs reducedwidth responsiveness">
-          <h1 className="my-3 responsiveness usertitle">MY ORDERS</h1>
-          <div
-            className="accordion my-2 w-100 bs responsiveness"
-            id="accordionExample"
-          >
-            <div className="accordion-item">
-              <h2 className="accordion-header" id="headingOne">
-                <button
-                  className="accordion-button collapsed boldtext"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                  aria-expanded="false"
-                  aria-controls="collapseOne"
-                >
-                  FILTER
-                </button>
-              </h2>
-              <div
-                id="collapseOne"
-                className="accordion-collapse collapse"
-                aria-labelledby="headingOne"
-                data-bs-parent="#accordionExample"
-              >
-                <div className="accordion-body text-start my-3">
-                  <label for="daterange" className="me-1 my-1 boldtext">
-                    Date Range
-                  </label>
-                  <RangePicker
-                    format="DD-MM-YYYY"
-                    onChange={filterByDate2}
-                  />
-                  {/* <label
+          <div className="row">
+            <div className="col-md-7">
+              <h1 className="my-3 responsiveness usertitle">MY ORDERS</h1>
+            </div>
+            <div className="col-md-5">
+                <div className="row my-4 py-2 px-2 orderfilter text-center align-items-center">
+                  <div className="col-md-3">
+                    <h5 className="boldtext">Filter</h5>
+                  </div>
+                  <div className="col-md-9">
+                    <RangePicker format="DD-MM-YYYY" onChange={filterByDate2} />
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          {/* <label
                     for="customerfilter"
                     className="boldtext my-1 ms-2"
                   >
@@ -186,16 +164,7 @@ function Orders() {
                   <button className="btn btn-primary my-1 mx-1">
                     Search
                   </button> */}
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div className="row justify-content-center">
-        <div className="col-md-10 bs br mx-5 my-5 py-5 px-5 responsiveness reducedwidth">
-          <div className="row justify-content-center">
+          <div className="row justify-content-center my-5">
             <h6>ORDER HISTORY</h6>
             <br />
             <hr />
@@ -225,7 +194,11 @@ function Orders() {
                                   {orders.ID}
                                 </span>
                               </td>
-                              <td>{moment(orders.DateTime).format('MMMM Do YYYY, h:mm a')}</td>
+                              <td>
+                                {moment(orders.DateTime).format(
+                                  "MMMM Do YYYY, h:mm a"
+                                )}
+                              </td>
                               <td>
                                 <span class="badge text-bg-primary primary">
                                   collection
@@ -307,9 +280,6 @@ function Orders() {
           </div>
         </div>
       </div>
-      {/* </div>
-          </div>
-        </div> */}
     </>
   );
 }

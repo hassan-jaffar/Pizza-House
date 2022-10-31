@@ -65,21 +65,21 @@ function RegisterPage() {
     <>
      <ToastContainer />
         <div className="row justify-content-center">
-          <div className="col-md-4 text-center mt-2 responsiveness">
+          <div className="col-lg-4 text-center mt-2 responsiveness">
           <Link to="/">
               <img
                 className="menuimg"
                 src={require("../Images/logo.png")}
               />
             </Link>
-            <h3 className="boldtext my-3">SIGN UP</h3>
+            <h5 className="boldtext mt-1">SIGN UP</h5>
             <form>
-              <div className="my-5 ms-5 me-2 text-start centeredRegItems">
+              <div className="my-4 ms-5 me-2 text-start centeredRegItems">
                 <label for="namee">Name</label>
                 <input
                   id="namee"
                   type="text"
-                  className="form-control mb-4"
+                  className="form-control mb-2"
                   placeholder="Name"
                   value={name} 
                   onChange={(e) => { setname(e.target.value) }}
@@ -89,7 +89,7 @@ function RegisterPage() {
                 <input
                   id="emailad"
                   type="email"
-                  className="form-control mb-4"
+                  className="form-control mb-2"
                   placeholder="Email"
                   value={email} 
               onChange={(e) => { setemail(e.target.value) }}
@@ -99,7 +99,7 @@ function RegisterPage() {
                 <input
                   id="phoneno"
                   type="tel"
-                  className="form-control mb-4"
+                  className="form-control mb-2"
                   placeholder="Phone"
                   value={number} 
               onChange={(e) => { setnumber(e.target.value) }}
@@ -109,7 +109,7 @@ function RegisterPage() {
                 <input
                   id="password"
                   type="password"
-                  className="form-control mb-4"
+                  className="form-control mb-2"
                   placeholder="Password"
                   value={password} 
                   onChange={(e) => { setpassword(e.target.value) }}
@@ -119,13 +119,13 @@ function RegisterPage() {
                 <input
                   id="cpassword"
                   type="password"
-                  className="form-control mb-4"
+                  className="form-control"
                   placeholder="Confirm Password"
                   value={cpassword} 
                   onChange={(e) => { setcpassword(e.target.value) }}
                   required
                 />
-                <div className="disablediv">
+                {/* <div className="disablediv">
                   <iframe
                     title="reCAPTCHA"
                     src="https://images.pexels.com/photos/845808/pexels-photo-845808.jpeg?cs=srgb&dl=pexels-pablo-macedo-845808.jpg&fm=jpg"
@@ -137,10 +137,10 @@ function RegisterPage() {
                     scrolling="no"
                     sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"
                   ></iframe>
-                </div>
+                </div> */}
               </div>
 
-              <div className="mb-5">
+              <div>
                 <button
                   className="btn btn-primary registerbtn"
                   // type="submit"
@@ -149,20 +149,14 @@ function RegisterPage() {
                 >
                   SIGN IN
                 </button>
-                <button className="btn btn-light registerbtn">
-                  <i class="fa-brands fa-google"></i> GOOGLE
-                </button>
-                <button className="btn btn-light registerbtn">
-                  <i class="fa-brands fa-square-facebook"></i> FACEBOOK
-                </button>
               </div>
             </form>
 
-            <p className="mb-5">
+            <p>
               Already have an account yet? <Link to="/">Login</Link>
             </p>
           </div>
-          <div className="col-md-8 disablediv responsiveness">
+          <div className="col-lg-8 disablediv responsiveness">
             <img
               className="registerimg"
               src="https://img.lovepik.com/photo/20211122/large/lovepik-pizza-picture_500753800.jpg"
