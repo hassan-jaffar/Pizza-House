@@ -491,7 +491,7 @@ router.get('/getorderdetails/:id/:cid', (req, res) => {
 
 })
 
-// Router 11 : Get all customers PATH: http://localhost:5000/api/admin/getorderlength
+// Router 11 : Get all customers PATH: https://apinodejs.creativeparkingsolutions.com/api/admin/getorderlength
 // STATUS:
 router.get('/getorderlength', (req, res) => {
 
