@@ -202,7 +202,7 @@ function Navbar() {
                 <>
                   <div className="cart-cont bs">
                     <p>
-                      Order Minimum is $5.00. Please add more items in the cart.
+                      Order Minimum is RS 5.00. Please add more items in the cart.
                     </p>
                   </div>
                 </>
@@ -215,7 +215,7 @@ function Navbar() {
                       <div className="cart-card bs">
                         <h5>{item.Title}</h5>
                         <h6>
-                          {item.Quantity} x ${item.Price}
+                          {item.Quantity} x RS.{item.Price}
                         </h6>
                         <button
                           className="btn btn-outline-dark"
@@ -268,7 +268,7 @@ function Navbar() {
                 </button>
               </div> */}
               <div className="row my-5">
-                <h6 className="boldtext redclr">Sub-total: ${total}</h6>
+                <h6 className="boldtext redclr">Sub-total: RS. {total}</h6>
 
                 {total >= 5 && (
                   <>

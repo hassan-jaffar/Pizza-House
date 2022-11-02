@@ -10,8 +10,9 @@ var transporter = nodemailer.createTransport({
     service: 'gmail',
     port: 993,
     auth: {
-        user: 'shoaibjamil43@gmail.com',
-        pass: 'ohplalyerexxexif'
+        user: 'housepizza047@gmail.com',
+        pass: 'psutkuremtqfcuml'
+        // Admin123@
     }
 });
 

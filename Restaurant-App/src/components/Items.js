@@ -61,11 +61,11 @@ function Items({ items, categorys }) {
           <div
             className="row productcard bs"
             type="button"
-            // onClick={() => {
-            //   showmodal(item);
-            // }}
-            // data-bs-toggle="modal"
-            // data-bs-target="#addtocart"
+          // onClick={() => {
+          //   showmodal(item);
+          // }}
+          // data-bs-toggle="modal"
+          // data-bs-target="#addtocart"
           >
             <div className="col-12 producttext text-center">
               <img className="productimg" src={items.Image} alt=".." />
@@ -77,7 +77,7 @@ function Items({ items, categorys }) {
               )}
               <hr />
               {items.Price !== "undefined" ? (
-                <h5 className="itemprice">$ {items.Price}</h5>
+                <h5 className="itemprice">RS. {items.Price}</h5>
               ) : (
                 <></>
               )}
@@ -123,7 +123,7 @@ function Items({ items, categorys }) {
                 <i className="fa-solid fa-bus me-2 redclr"></i>Delivered by
                 Pizza House
               </p>
-              <h5 className="boldtext my-5 redclr">${items.Price}</h5>
+              <h5 className="boldtext my-5 redclr">RS.{items.Price}</h5>
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Quantity</Form.Label>
