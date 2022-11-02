@@ -31,7 +31,7 @@ function Items({ items, categorys }) {
     console.log(cartDetail);
     try {
       const result = await axios.post(
-        "http://localhost:5000/api/admin/cart",
+        "https://res.creativeparkingsolutions.com/api/admin/cart",
         cartDetail
       );
       console.log(result);

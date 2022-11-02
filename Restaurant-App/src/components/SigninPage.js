@@ -18,7 +18,7 @@ function SigninPage() {
 
     try {
       // setloading(true)
-      const result = (await axios.post('http://localhost:5000/api/user/login', user)).data;
+      const result = (await axios.post('https://res.creativeparkingsolutions.com/api/user/login', user)).data;
 
       localStorage.setItem('currentuser', JSON.stringify(result.data));
 
@@ -35,7 +35,7 @@ function SigninPage() {
 
       toast.success("Login Successfull")
       setInterval(() => {
-        window.location.href = "/home"
+        window.location.href = "/"
       }, 2000);
       // setloading(false)
 

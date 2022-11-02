@@ -50,7 +50,7 @@ function Orders() {
       };
       try {
         const data = await (
-          await axios.post("http://localhost:5000/api/admin/getcart", user)
+          await axios.post("https://res.creativeparkingsolutions.com/api/admin/getcart", user)
         ).data;
         setOrder(data.data);
         setduplicateorder(data.data);

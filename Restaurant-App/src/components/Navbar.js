@@ -30,7 +30,7 @@ function Navbar() {
     try {
       const data = (
         await axios.post(
-          "http://localhost:5000/api/admin/updatecart",
+          "https://res.creativeparkingsolutions.com/api/admin/updatecart",
           info
         )
       ).data;
@@ -55,7 +55,7 @@ function Navbar() {
     try {
       const data = (
         await axios.post(
-          "http://localhost:5000/api/admin/updatecart",
+          "https://res.creativeparkingsolutions.com/api/admin/updatecart",
           info
         )
       ).data;
@@ -76,7 +76,7 @@ function Navbar() {
     try {
       const data = (
         await axios.post(
-          "http://localhost:5000/api/admin/updatecart",
+          "https://res.creativeparkingsolutions.com/api/admin/updatecart",
           info
         )
       ).data;
@@ -100,7 +100,7 @@ function Navbar() {
       try {
         const data = (
           await axios.post(
-            "http://localhost:5000/api/admin/getcartitems",
+            "https://res.creativeparkingsolutions.com/api/admin/getcartitems",
             temp
           )
         ).data;
@@ -123,7 +123,7 @@ function Navbar() {
         try {
           const data = (
             await axios.post(
-              "http://localhost:5000/api/admin/getcartitems",
+              "https://res.creativeparkingsolutions.com/api/admin/getcartitems",
               temp
             )
           ).data;

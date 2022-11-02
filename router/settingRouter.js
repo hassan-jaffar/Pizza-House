@@ -449,7 +449,7 @@ router.post("/apps", (req, res) => {
     })
 })
 
-// Router for add timings / Path: http://localhost:5000/api/setting/addtimings
+// Router for add timings / Path: https://res.creativeparkingsolutions.com/api/setting/addtimings
 router.post("/addtimings", (req, res) => {
     let id = req.body.id;
     let description = req.body.description;
@@ -496,7 +496,7 @@ router.post("/addtimings", (req, res) => {
     })
 })
 
-// Router for Gallery / Path: http://localhost:5000/api/setting/addgallery
+// Router for Gallery / Path: https://res.creativeparkingsolutions.com/api/setting/addgallery
 router.post("/addgallery", upload.single("image"), (req, res) => {
     let id = req.body.id;
     let link = req.body.link;
@@ -544,7 +544,7 @@ router.post("/addgallery", upload.single("image"), (req, res) => {
     })
 })
 
-// Router for addcontent / Path: http://localhost:5000/api/setting/addcontent
+// Router for addcontent / Path: https://res.creativeparkingsolutions.com/api/setting/addcontent
 router.post("/addcontent", upload.fields([{ name: "menu", maxCount: 1 },
 { name: "banner1", maxCount: 1 },
 { name: "banner2", maxCount: 1 },

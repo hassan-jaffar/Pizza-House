@@ -556,7 +556,7 @@ router.post('/closeshift', (req, res) => {
     })
 })
 
-// Login as route path: http://localhost:5000/api/superadmin/loginas
+// Login as route path: https://res.creativeparkingsolutions.com/api/superadmin/loginas
 router.post("/loginas", (req, res) => {
     let id = req.body.id;
 
